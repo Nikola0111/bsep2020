@@ -4,24 +4,23 @@ import java.util.List;
 
 public class CertificateAuthority {
 
-    private Certificate parent;
+    private CertificateAuthority parent;
 
     private CertificateData data;
 
     private List<Certificate> children;
 
-
+    private CertificateType type;
 
     
+
     CertificateAuthority(){}
 
-    
-
-    public Certificate getParent() {
+    public CertificateAuthority getParent() {
         return this.parent;
     }
 
-    public void setParent(Certificate parent) {
+    public void setParent(CertificateAuthority parent) {
         this.parent = parent;
     }
 
@@ -39,5 +38,13 @@ public class CertificateAuthority {
 
     public void setChildren(List<Certificate> children) {
         this.children = children;
+    }
+
+    public CertificateType getType() {
+        return this.type;
+    }
+
+    public void setType(CertificateType type) {
+        this.type = type;
     }
 }

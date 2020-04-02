@@ -1,6 +1,8 @@
 package com.example.bsep.model;
 
 import javax.persistence.Inheritance;
+
+import java.security.KeyPair;
 import java.util.Date;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.InheritanceType;
@@ -8,19 +10,22 @@ import javax.persistence.InheritanceType;
 
 public class CertificateData {
     
-    private Long id;
+	private Long id;
+	
+	private String serialNumber;
 
-    private String izdavac;
+	private KeyPair keyPairIssuer;
 
-    private String korisnikIme;
+	private  IssuerData issuerData;
 
-    private Date validanOd;
+	private UserData userData;
+        
+    private Date validFrom;
 
-    private Date validanDo;
-
-    private String keyStoreNaziv;
-
-    private boolean povucen;
+    private Date validUntil;
+        
+     
+    private boolean withdrawn;
 
     public CertificateData() { }
 
@@ -32,43 +37,8 @@ public class CertificateData {
 		this.id = id;
 	}
 
-	public String getIzdavac() {
-		return this.izdavac;
-	}
+	
 
-	public void setIzdavac(String izdavac) {
-		this.izdavac = izdavac;
-	}
 
-	public String getKorisnikIme() {
-		return this.korisnikIme;
-	}
 
-	public void setKorisnikIme(String korisnikIme) {
-		this.korisnikIme = korisnikIme;
-	}
-
-	public Date getValidanOd() {
-		return this.validanOd;
-	}
-
-	public void setValidanOd(Date validanOd) {
-		this.validanOd = validanOd;
-	}
-
-	public Date getValidanDo() {
-		return this.validanDo;
-	}
-
-	public void setValidanDo(Date validanDo) {
-		this.validanDo = validanDo;
-	}
-
-	public boolean isPovucen() {
-		return this.povucen;
-	}
-
-	public void setPovucen(boolean povucen) {
-		this.povucen = povucen;
-	} 
 }
