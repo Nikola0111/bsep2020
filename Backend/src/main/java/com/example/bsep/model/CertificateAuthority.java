@@ -2,6 +2,9 @@ package com.example.bsep.model;
 
 import java.util.List;
 
+import org.bouncycastle.asn1.x509.BasicConstraints;
+import org.bouncycastle.asn1.x509.KeyUsage;
+
 public class CertificateAuthority {
 
     private CertificateAuthority parent;
@@ -12,9 +15,17 @@ public class CertificateAuthority {
 
     private CertificateType type;
 
+    private BasicConstraints basicConstraints;
+
+    private KeyUsage keyUsage;
+
+   
+
+    CertificateAuthority(){
+        
     
 
-    CertificateAuthority(){}
+    }
 
     public CertificateAuthority getParent() {
         return this.parent;

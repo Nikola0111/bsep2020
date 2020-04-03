@@ -15,6 +15,10 @@ public class CertificateCreationDTO {
 
 	private String X500RequestingCommonName;
 
+	private String X500RequestingSurname;
+
+	private String X500RequestingGivenname;
+
 	private String X500RequestingOrganizationUnit;
 
 	private String X500RequestingOrganization;
@@ -37,6 +41,10 @@ public class CertificateCreationDTO {
 
 	private String X500AdminCommonName;
 
+	private String X500AdminSurname;
+
+	private String X500AdminGivenname;
+
 	private String X500AdminOrganizationUnit;
 
 	private String X500AdminOrganization;
@@ -49,19 +57,11 @@ public class CertificateCreationDTO {
 
 	private String X500AdminUID;
 
+	private String serialNumber;
+
 	public CertificateCreationDTO() {
 		
 	}
-
-	public CertificateCreationDTO(Long requestingID, String requestingName, String requestingSurname, String requestingEmail,
-								  String X500RequestingCommonName, String X500RequestingOrganizationUnit, String X500RequestingOrganization, String X500RequestingLocality,
-								  String X500RequestingState, String X500RequestingCountry, String X500RequestingUID,
-								  Long administratorID, String administratorName, String administratorSurname, String administratorEmail,
-								  String X500AdminCommonName, String X500AdminOrganizationUnit, String X500AdminOrganization, String X500AdminLocality,
-								  String X500AdminState, String X500AdminCountry, String X500AdminUID) {
-		
-	}
-
 
 	public Long getRequestingID() {
 		return this.requestingID;
@@ -101,6 +101,22 @@ public class CertificateCreationDTO {
 
 	public void setX500RequestingCommonName(String X500RequestingCommonName) {
 		this.X500RequestingCommonName = X500RequestingCommonName;
+	}
+
+	public String getX500RequestingSurname() {
+		return this.X500RequestingSurname;
+	}
+
+	public void setX500RequestingSurname(String X500RequestingSurname) {
+		this.X500RequestingSurname = X500RequestingSurname;
+	}
+
+	public String getX500RequestingGivenname() {
+		return this.X500RequestingGivenname;
+	}
+
+	public void setX500RequestingGivenname(String X500RequestingGivenname) {
+		this.X500RequestingGivenname = X500RequestingGivenname;
 	}
 
 	public String getX500RequestingOrganizationUnit() {
@@ -191,6 +207,22 @@ public class CertificateCreationDTO {
 		this.X500AdminCommonName = X500AdminCommonName;
 	}
 
+	public String getX500AdminSurname() {
+		return this.X500AdminSurname;
+	}
+
+	public void setX500AdminSurname(String X500AdminSurname) {
+		this.X500AdminSurname = X500AdminSurname;
+	}
+
+	public String getX500AdminGivenname() {
+		return this.X500AdminGivenname;
+	}
+
+	public void setX500AdminGivenname(String X500AdminGivenname) {
+		this.X500AdminGivenname = X500AdminGivenname;
+	}
+
 	public String getX500AdminOrganizationUnit() {
 		return this.X500AdminOrganizationUnit;
 	}
@@ -237,5 +269,13 @@ public class CertificateCreationDTO {
 
 	public void setX500AdminUID(String X500AdminUID) {
 		this.X500AdminUID = X500AdminUID;
+	}
+
+	public String getSerialNumber() {
+		return this.serialNumber;
+	}
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
 	}
 }
