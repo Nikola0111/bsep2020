@@ -3,7 +3,7 @@ package com.example.bsep.model;
 import java.util.List;
 
 import org.bouncycastle.asn1.x509.BasicConstraints;
-import org.bouncycastle.asn1.x509.KeyUsage;
+
 
 public class CertificateAuthority {
 
@@ -15,9 +15,11 @@ public class CertificateAuthority {
 
     private CertificateType type;
 
+    private byte[] signature;
+
     private BasicConstraints basicConstraints;
 
-    private KeyUsage keyUsage;
+    
 
    
 

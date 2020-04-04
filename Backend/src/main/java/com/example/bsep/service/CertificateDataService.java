@@ -9,8 +9,14 @@ import java.util.List;
 import java.util.Calendar;
 import java.util.Date;
 
+
+import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.x500.X500NameBuilder;
 import org.bouncycastle.asn1.x500.style.BCStyle;
+import org.bouncycastle.asn1.x509.BasicConstraints;
+import org.bouncycastle.asn1.x509.KeyUsage;
+import org.bouncycastle.asn1.x509.X509Extensions;
+import org.bouncycastle.cert.CertIOException;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.X509v3CertificateBuilder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
@@ -18,6 +24,7 @@ import org.bouncycastle.cert.jcajce.JcaX509v3CertificateBuilder;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
+
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -33,43 +40,34 @@ import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
-
-
 @Service
 public class CertificateDataService {
 
-
-	public void newCertificate(CertificateCreationDTO certificateCreationDTO)
-	{
+	public void newCertificate(CertificateCreationDTO certificateCreationDTO) {
 		CertificateData certificateData = generateCertificateData(certificateCreationDTO);
-			
+
 		KeyPair keyPairIssuer = generateKeyPair();
 		IssuerData issuerData = generateIssuerData(keyPairIssuer.getPrivate(), certificateCreationDTO);
 
-			
 		X509Certificate cert = generateCertificate(certificateData, issuerData);
 
-		
-
-		
 	}
-
 
 	private IssuerData generateIssuerData(PrivateKey issuerKey, CertificateCreationDTO certificateCreationDTO) {
 		X500NameBuilder builder = new X500NameBuilder(BCStyle.INSTANCE);
-	    builder.addRDN(BCStyle.CN, certificateCreationDTO.getX500AdminCommonName());
-	    builder.addRDN(BCStyle.SURNAME, certificateCreationDTO.getX500AdminSurname());
-	    builder.addRDN(BCStyle.GIVENNAME, certificateCreationDTO.getX500AdminGivenname());
-	    builder.addRDN(BCStyle.O, certificateCreationDTO.getX500AdminOrganization());
-	    builder.addRDN(BCStyle.OU, certificateCreationDTO.getX500AdminOrganizationUnit());
-	    builder.addRDN(BCStyle.C, certificateCreationDTO.getX500AdminCountry());
-	    builder.addRDN(BCStyle.E, certificateCreationDTO.getAdministratorEmail());
-	    //UID (USER ID) je ID korisnika
-	    builder.addRDN(BCStyle.UID, certificateCreationDTO.getX500AdminUID());
+		builder.addRDN(BCStyle.CN, certificateCreationDTO.getX500AdminCommonName());
+		builder.addRDN(BCStyle.SURNAME, certificateCreationDTO.getX500AdminSurname());
+		builder.addRDN(BCStyle.GIVENNAME, certificateCreationDTO.getX500AdminGivenname());
+		builder.addRDN(BCStyle.O, certificateCreationDTO.getX500AdminOrganization());
+		builder.addRDN(BCStyle.OU, certificateCreationDTO.getX500AdminOrganizationUnit());
+		builder.addRDN(BCStyle.C, certificateCreationDTO.getX500AdminCountry());
+		builder.addRDN(BCStyle.E, certificateCreationDTO.getAdministratorEmail());
+		// UID (USER ID) je ID korisnika
+		builder.addRDN(BCStyle.UID, certificateCreationDTO.getX500AdminUID());
 
-		//Kreiraju se podaci za issuer-a, sto u ovom slucaju ukljucuje:
-	    // - privatni kljuc koji ce se koristiti da potpise sertifikat koji se izdaje
-	    // - podatke o vlasniku sertifikata koji izdaje nov sertifikat
+		// Kreiraju se podaci za issuer-a, sto u ovom slucaju ukljucuje:
+		// - privatni kljuc koji ce se koristiti da potpise sertifikat koji se izdaje
+		// - podatke o vlasniku sertifikata koji izdaje nov sertifikat
 		return new IssuerData(issuerKey, builder.build());
 	}
 
@@ -86,43 +84,55 @@ public class CertificateDataService {
 
 			X500NameBuilder builder = new X500NameBuilder(BCStyle.INSTANCE);
 			builder.addRDN(BCStyle.CN, certificateCreationDTO.getX500AdminCommonName());
-			builder.addRDN(BCStyle.GIVENNAME, certificateCreationDTO.getX500RequestingGivenname());
-			builder.addRDN(BCStyle.SURNAME, certificateCreationDTO.getX500RequestingSurname());
-			builder.addRDN(BCStyle.O, certificateCreationDTO.getX500RequestingOrganizationUnit());
-			builder.addRDN(BCStyle.OU, certificateCreationDTO.getX500RequestingOrganization());
-			builder.addRDN(BCStyle.C, certificateCreationDTO.getX500RequestingCountry());
-			builder.addRDN(BCStyle.E, certificateCreationDTO.getRequestingEmail());
+			builder.addRDN(BCStyle.GIVENNAME, certificateCreationDTO.getX500AdmingGivenname());
+			builder.addRDN(BCStyle.SURNAME, certificateCreationDTO.getX500RAdminSurname());
+			builder.addRDN(BCStyle.O, certificateCreationDTO.getX500RAdminOrganizationUnit());
+			builder.addRDN(BCStyle.OU, certificateCreationDTO.getX500AdminOrganization());
+			builder.addRDN(BCStyle.C, certificateCreationDTO.getX500AdminCountry());
+			builder.addRDN(BCStyle.E, certificateCreationDTO.getAdminEmail());
 			builder.addRDN(BCStyle.UID, certificateCreationDTO.getX500AdminUID());
 
-			return new CertificateData(serialNumber, keyPairIssuer, builder.build(), startDate.getTime(), endDate.getTime());
-		}
-		catch(Exception e)
-		{
+			return new CertificateData(serialNumber, keyPairIssuer, builder.build(), startDate.getTime(),
+					endDate.getTime());
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-
 	public X509Certificate generateCertificate(CertificateData certificateData, IssuerData issuerData) {
 		try {
-			//Posto klasa za generisanje sertifiakta ne moze da primi direktno privatni kljuc pravi se builder za objekat
-			//Ovaj objekat sadrzi privatni kljuc izdavaoca sertifikata i koristiti se za potpisivanje sertifikata
-			//Parametar koji se prosledjuje je algoritam koji se koristi za potpisivanje sertifiakta
+			// Posto klasa za generisanje sertifiakta ne moze da primi direktno privatni
+			// kljuc pravi se builder za objekat
+			// Ovaj objekat sadrzi privatni kljuc izdavaoca sertifikata i koristiti se za
+			// potpisivanje sertifikata
+			// Parametar koji se prosledjuje je algoritam koji se koristi za potpisivanje
+			// sertifiakta
 			JcaContentSignerBuilder builder = new JcaContentSignerBuilder("SHA256WithRSAEncryption");
-			//Takodje se navodi koji provider se koristi, u ovom slucaju Bouncy Castle
+			// Takodje se navodi koji provider se koristi, u ovom slucaju Bouncy Castle
 			builder = builder.setProvider("BC");
 
-			//Formira se objekat koji ce sadrzati privatni kljuc i koji ce se koristiti za potpisivanje sertifikata
+			// Formira se objekat koji ce sadrzati privatni kljuc i koji ce se koristiti za
+			// potpisivanje sertifikata
 			ContentSigner contentSigner = builder.build(issuerData.getPrivateKey());
 
-			//Postavljaju se podaci za generisanje sertifiakta
+			// Postavljaju se podaci za generisanje sertifiakta
 			X509v3CertificateBuilder certGen = new JcaX509v3CertificateBuilder(issuerData.getX500name(),
-					new BigInteger(certificateData.getSerialNumber()),
-					certificateData.getValidFrom(),
-					certificateData.getValidUntil(),
-					certificateData.getX500Name(),
+					new BigInteger(certificateData.getSerialNumber()), certificateData.getValidFrom(),
+					certificateData.getValidUntil(), certificateData.getX500Name(),
 					certificateData.getKeyPairIssuer().getPublic());
+
+		
+				
+
+			try {
+				certGen.addExtension(new ASN1ObjectIdentifier("2.5.29.15"), true, new KeyUsage(KeyUsage.digitalSignature));
+			} catch (CertIOException e) {
+				
+				e.printStackTrace();
+			}
+			
+			
 			//Generise se sertifikat
 			X509CertificateHolder certHolder = certGen.build(contentSigner);
 
