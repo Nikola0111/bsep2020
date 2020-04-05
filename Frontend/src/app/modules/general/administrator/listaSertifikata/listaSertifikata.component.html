@@ -1,0 +1,19 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="topnav" id="myTopnav">
+  <a routerLink="" >Home page</a>
+  <a routerLink="/lista-sertifikata" class="active">Certificate list</a>
+  <a routerLink="/forma" >New certificate</a>
+</div>
+
+
+<ul class="form-style-1">
+  <li><label><h2>Certificate list</h2> </label></li>
+
+  <li *ngFor="let c of certificates">
+    <label> {{c.id}} </label>
+    <input (click) = "preview(c.id)" type="submit" value="Preview"/>
+    <input (click) = "revoke(c.id)" type="reset" value="Revoke"/>
+    <input (click) = "download(c.id)" type="button" value="Download"/>
+  </li>
+</ul>

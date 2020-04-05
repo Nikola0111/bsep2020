@@ -10,4 +10,5 @@ public class BsepApplication {
 		SpringApplication.run(BsepApplication.class, args);
 	}
 
+	//	komentar
 }
