@@ -1,0 +1,126 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="topnav" id="myTopnav">
+  <a routerLink="" >Home page</a>
+  <a routerLink="/lista-sertifikata">Certificate list</a>
+  <a routerLink="/forma" class="active">New certificate</a>
+</div>
+<form>
+  <ul class="form-style-1">
+    <li><label><h2>Requesting</h2></label></li>
+    <li><label>ID </label>
+      <input type="text" name="requestingID" class="field-long" placeholder="ID"/>
+    </li>
+
+    <li>
+      <label>Full Name</label>
+      <input type="text" name="requestingName" class="field-divided" placeholder="First" />
+      <input type="text" name="requestingSurname" class="field-divided" placeholder="Last" />
+    </li>
+
+    <li>
+      <label>Email</label>
+      <input type="email" name="requestingEmail" class="field-long" placeholder="requesting@domain.com" />
+    </li>
+
+    <li> <label><h2>X500 </h2></label></li>
+
+    <li>
+      <label> Name </label>
+      <input type="text" name="x500CommonName" class="field-divided" placeholder="Common Name" />
+      <input type="text" name="x500Surname" class="field-divided" placeholder="Surname" />
+    </li>
+    <li><input type="text" name="x500GivenName" class="field-divided" placeholder="Given Name" /></li>
+
+    <li>
+      <label>Organization </label>
+      <input type="text" name="x500RequestingOrganization" class="field-long" placeholder="Requesting organization" />
+    </li>
+
+    <li>
+      <label>Locality </label>
+      <input type="text" name="x500RequestingLocality" class="field-long" placeholder="Requesting locality" />
+    </li>
+
+    <li>
+      <label>State </label>
+      <input type="text" name="x500RequestingState" class="field-long" placeholder="Requesting state" />
+    </li>
+
+    <li>
+      <label>Country </label>
+      <input type="text" name="x500RequestingCountry" class="field-long" placeholder="Requesting country" />
+    </li>
+
+    <li>
+      <label>UID </label>
+      <input type="text" name="x500RequestingUID" class="field-long" placeholder="Requesting UID" />
+    </li>
+    <li><label><h2>Administrator</h2></label></li>
+    <li>
+      <label>ID </label>
+      <input [(ngModel)]="administrator.id" type="text" name="administratorID" class="field-long" placeholder="Administrator ID" />
+    </li>
+
+    <li>
+      <label>Full Name </label>
+      <input [(ngModel)]="administrator.name" type="text" name="administratorName" class="field-divided" placeholder="Name" />
+      <input [(ngModel)]="administrator.surname" type="text" name="administratorSurname" class="field-divided" placeholder="Surname" />
+    </li>
+
+    <li>
+      <label>Email </label>
+      <input [(ngModel)]="administrator.email" type="text" name="administratorEmail" class="field-long" placeholder="admin@domain.com" />
+    </li>
+    <li><label><h2>X500 Admin</h2></label></li>
+
+    <li>
+      <label> Name </label>
+      <input type="text" name="adminx500CommonName" class="field-divided" placeholder="Common Name" />
+      <input type="text" name="adminx500Surname" class="field-divided" placeholder="Surname" />
+    </li>
+    <li><input type="text" name="adminx500GivenName" class="field-divided" placeholder="Given Name" /></li>
+
+    <li>
+      <label>Organization Unit </label>
+      <input type="text" name="adminx500OrganizationUnit" class="field-long" placeholder="Organization unit" />
+    </li>
+
+    <li>
+      <label>Organization </label>
+      <input type="text" name="adminx500Organization" class="field-long" placeholder="Organization" />
+    </li>
+
+    <li>
+      <label>Locality</label>
+      <input type="text" name="adminx500Locality" class="field-long" placeholder="Locality" />
+    </li>
+
+    <li>
+      <label>State </label>
+      <input type="text" name="adminx500State" class="field-long" placeholder="State" />
+    </li>
+
+    <li>
+      <label>Country</label>
+      <input type="text" name="adminx500Country" class="field-long" placeholder="Country" />
+    </li>
+
+    <li>
+      <label>UID </label>
+      <input type="text" name="adminx500UID" class="field-long" placeholder="UID" />
+    </li>
+
+    <li><label><h2>Certificate</h2></label></li>
+
+    <li>
+      <label>Serial Number </label>
+      <input type="text" name="serialNumber" class="field-long" placeholder="Serial number" />
+    </li>
+    <li>
+      <input (click) = "onSubmit()" type="submit" value="Create" />
+      <input type="reset" value="Cancel" />
+    </li>
+
+  </ul>
+</form>
