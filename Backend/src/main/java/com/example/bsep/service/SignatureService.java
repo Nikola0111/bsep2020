@@ -79,5 +79,21 @@ public class SignatureService {
 		}
 		return false;
 	}
+
+	/*
+		private void revokeCertificates(Certificate  sertifikatKojiSePovlaci, List<Certificates> sertifikatiZaPovlacenje, List<Certificates> sviSertifikati){
+			for(int i = 0;i < sviSertifikati.size(); i++){
+				if(sviSertifikati.get(i).parametar == sertifikatKojiSePovlaci.parametar) {
+					Certificate zaPovlacenje = sviSertifikati.get(i);
+					revokeCertificates(zaPovlacenje, sertifikatiZaPovlacenje, sviSertifikati);
+
+					zaPovlacenje.setWithdrawn(true);
+					sertifikatiZaPovlacenje.add(zaPovlacenje);
+				}
+			}
+			sertifikatKojiSePovlaci.setWithdrawn(true);
+			sertifikatiZaPovlacenje.add(sertifikatKojiSePovlaci);
+		}
+	*/
 	
 }

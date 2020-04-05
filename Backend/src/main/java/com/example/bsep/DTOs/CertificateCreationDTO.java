@@ -1,11 +1,13 @@
 
 package com.example.bsep.dtos;
 
-
+import com.example.bsep.model.CertType;
 
 public class CertificateCreationDTO {
 
 	private Long requestingID;
+
+	private CertType CertType;
 
 	private String requestingName;
 
@@ -278,4 +280,12 @@ public class CertificateCreationDTO {
 	public void setSerialNumber(String serialNumber) {
 		this.serialNumber = serialNumber;
 	}
+
+	public CertType getCertType() {
+		return this.CertType;
+	}
+
+	public void setCertType(CertType CertType) {
+		this.CertType = CertType;
+	};
 }
