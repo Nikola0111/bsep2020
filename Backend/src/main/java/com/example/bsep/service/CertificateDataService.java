@@ -1,106 +1,140 @@
 package com.example.bsep.service;
-
+import com.example.bsep.model.CertType;
 import com.example.bsep.model.CertificateData;
 import com.example.bsep.model.IssuerData;
-
 import com.example.bsep.dtos.CertificateCreationDTO;
-
-import java.util.List;
 import java.util.Calendar;
-import java.util.Date;
-
-
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.x500.X500NameBuilder;
 import org.bouncycastle.asn1.x500.style.BCStyle;
+import org.bouncycastle.asn1.x509.AuthorityKeyIdentifier;
 import org.bouncycastle.asn1.x509.BasicConstraints;
 import org.bouncycastle.asn1.x509.KeyUsage;
-import org.bouncycastle.asn1.x509.X509Extensions;
-import org.bouncycastle.cert.CertIOException;
+import org.bouncycastle.asn1.x509.SubjectKeyIdentifier;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.X509v3CertificateBuilder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
+import org.bouncycastle.cert.jcajce.JcaX509ExtensionUtils;
 import org.bouncycastle.cert.jcajce.JcaX509v3CertificateBuilder;
 import org.bouncycastle.operator.ContentSigner;
-import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.security.SignatureException;
-import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
 @Service
 public class CertificateDataService {
 
-	public void newCertificate(CertificateCreationDTO certificateCreationDTO) {
-		CertificateData certificateData = generateCertificateData(certificateCreationDTO);
 
-		KeyPair keyPairIssuer = generateKeyPair();
-		IssuerData issuerData = generateIssuerData(keyPairIssuer.getPrivate(), certificateCreationDTO);
+	@Autowired
+	KeyStoreService keyStoreService;
 
-		X509Certificate cert = generateCertificate(certificateData, issuerData);
+	
+	public void newCertificateRoot() {
 
 	}
 
-	private IssuerData generateIssuerData(PrivateKey issuerKey, CertificateCreationDTO certificateCreationDTO) {
-		X500NameBuilder builder = new X500NameBuilder(BCStyle.INSTANCE);
-		builder.addRDN(BCStyle.CN, certificateCreationDTO.getX500AdminCommonName());
-		builder.addRDN(BCStyle.SURNAME, certificateCreationDTO.getX500AdminSurname());
-		builder.addRDN(BCStyle.GIVENNAME, certificateCreationDTO.getX500AdminGivenname());
-		builder.addRDN(BCStyle.O, certificateCreationDTO.getX500AdminOrganization());
-		builder.addRDN(BCStyle.OU, certificateCreationDTO.getX500AdminOrganizationUnit());
-		builder.addRDN(BCStyle.C, certificateCreationDTO.getX500AdminCountry());
-		builder.addRDN(BCStyle.E, certificateCreationDTO.getAdministratorEmail());
-		// UID (USER ID) je ID korisnika
-		builder.addRDN(BCStyle.UID, certificateCreationDTO.getX500AdminUID());
 
-		// Kreiraju se podaci za issuer-a, sto u ovom slucaju ukljucuje:
-		// - privatni kljuc koji ce se koristiti da potpise sertifikat koji se izdaje
-		// - podatke o vlasniku sertifikata koji izdaje nov sertifikat
-		return new IssuerData(issuerKey, builder.build());
-	}
 
-	private CertificateData generateCertificateData(CertificateCreationDTO certificateCreationDTO) {
+	
+
+	public void save(CertificateCreationDTO  certificateCreationDTO, String issuerSN, CertType type) {
+        KeyPair keyPair;
+        CertificateData subject;
+        IssuerData issuer;
+        X509Certificate certificate;
+	
+
+        if (issuerSN == null || type == CertType.ROOT) {
+            keyPair = generateKeyPair();
+            subject = generateCertificateData(keyPair.getPublic(), certificateCreationDTO, true);
+            issuer =createRootIssuerData(keyPair, certificateCreationDTO, subject.getSerialNumber());
+            certificate = generateCertificate(subject, issuer, true);
+        } else if (type == CertType.INTERMEDIATE) {
+            keyPair = generateKeyPair();
+            subject = generateCertificateData(keyPair.getPublic(), certificateCreationDTO, true);
+            issuer = keyStoreService.findCAbySerialNumber(issuerSN);
+            certificate = generateCertificate(subject, issuer, true);
+        }
+        else {
+            keyPair = generateKeyPair();
+            issuer = keyStoreService.findCAbySerialNumber(issuerSN);
+            subject = generateCertificateData(keyPair.getPublic(), certificateCreationDTO, false);
+            certificate = generateCertificate(subject, issuer, false);
+        }
+
+        try {
+            keyStoreService.store(new X509Certificate[]{certificate}, keyPair.getPrivate());
+            if (type == CertType.ENDENTITY) {
+           //     storage.createTrustStorage(certificate);
+            }
+        } catch(Exception e){
+			e.printStackTrace();
+		}
+    }
+
+
+	
+	private CertificateData generateCertificateData(PublicKey publicKey,CertificateCreationDTO certificateCreationDTO, boolean isCA) {
 		try {
-			KeyPair keyPairIssuer = generateKeyPair();
-
+		
 			Calendar startDate = Calendar.getInstance();
 			Calendar tempDate = Calendar.getInstance();
-			tempDate.add(Calendar.YEAR, 3);
+			tempDate.add(Calendar.YEAR, 5);
 			Calendar endDate = tempDate;
 
-			String serialNumber = certificateCreationDTO.getSerialNumber();
+			long now = System.currentTimeMillis();
+			BigInteger serialNumber =  new BigInteger(Long.toString(now));
+
+			//FALI PROVERA VALIDNOSTI DATU
 
 			X500NameBuilder builder = new X500NameBuilder(BCStyle.INSTANCE);
-			builder.addRDN(BCStyle.CN, certificateCreationDTO.getX500AdminCommonName());
-			builder.addRDN(BCStyle.GIVENNAME, certificateCreationDTO.getX500AdmingGivenname());
-			builder.addRDN(BCStyle.SURNAME, certificateCreationDTO.getX500RAdminSurname());
-			builder.addRDN(BCStyle.O, certificateCreationDTO.getX500RAdminOrganizationUnit());
-			builder.addRDN(BCStyle.OU, certificateCreationDTO.getX500AdminOrganization());
-			builder.addRDN(BCStyle.C, certificateCreationDTO.getX500AdminCountry());
-			builder.addRDN(BCStyle.E, certificateCreationDTO.getAdminEmail());
-			builder.addRDN(BCStyle.UID, certificateCreationDTO.getX500AdminUID());
+			builder.addRDN(BCStyle.CN, certificateCreationDTO.getX500RequestingCommonName());
+			builder.addRDN(BCStyle.GIVENNAME, certificateCreationDTO.getX500RequestingGivenname());
+			builder.addRDN(BCStyle.SURNAME, certificateCreationDTO.getX500RequestingSurname());
+			builder.addRDN(BCStyle.O, certificateCreationDTO.getX500RequestingOrganizationUnit());
+			builder.addRDN(BCStyle.OU, certificateCreationDTO.getX500RequestingOrganization());
+			builder.addRDN(BCStyle.C, certificateCreationDTO.getX500RequestingCountry());
+			builder.addRDN(BCStyle.E, certificateCreationDTO.getRequestingEmail());
+			builder.addRDN(BCStyle.UID, certificateCreationDTO.getX500RequestingUID());
 
-			return new CertificateData(serialNumber, keyPairIssuer, builder.build(), startDate.getTime(),
-					endDate.getTime());
+			return new CertificateData(serialNumber, publicKey, builder.build(), startDate.getTime(),endDate.getTime());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	public X509Certificate generateCertificate(CertificateData certificateData, IssuerData issuerData) {
+
+	private IssuerData createRootIssuerData(KeyPair keyPair,CertificateCreationDTO certificateCreationDTO,BigInteger serialNumber ){
+
+
+		X500NameBuilder builder = new X500NameBuilder(BCStyle.INSTANCE);
+			builder.addRDN(BCStyle.CN, certificateCreationDTO.getX500RequestingCommonName());
+			builder.addRDN(BCStyle.GIVENNAME, certificateCreationDTO.getX500RequestingGivenname());
+			builder.addRDN(BCStyle.SURNAME, certificateCreationDTO.getX500RequestingSurname());
+			builder.addRDN(BCStyle.O, certificateCreationDTO.getX500RequestingOrganizationUnit());
+			builder.addRDN(BCStyle.OU, certificateCreationDTO.getX500RequestingOrganization());
+			builder.addRDN(BCStyle.C, certificateCreationDTO.getX500RequestingCountry());
+			builder.addRDN(BCStyle.E, certificateCreationDTO.getRequestingEmail());
+			builder.addRDN(BCStyle.UID, certificateCreationDTO.getX500RequestingUID());
+
+	return	new IssuerData(keyPair.getPrivate(),builder.build(), keyPair.getPublic(), serialNumber);
+
+		
+	}
+
+	public X509Certificate generateCertificate(CertificateData certificateData, IssuerData issuerData, boolean Ca ) {
 		try {
 			// Posto klasa za generisanje sertifiakta ne moze da primi direktno privatni
 			// kljuc pravi se builder za objekat
@@ -117,20 +151,30 @@ public class CertificateDataService {
 			ContentSigner contentSigner = builder.build(issuerData.getPrivateKey());
 
 			// Postavljaju se podaci za generisanje sertifiakta
-			X509v3CertificateBuilder certGen = new JcaX509v3CertificateBuilder(issuerData.getX500name(),
-					new BigInteger(certificateData.getSerialNumber()), certificateData.getValidFrom(),
-					certificateData.getValidUntil(), certificateData.getX500Name(),
-					certificateData.getKeyPairIssuer().getPublic());
-
+			X509v3CertificateBuilder certGen = new JcaX509v3CertificateBuilder(
+				issuerData.getX500name(),
+				certificateData.getSerialNumber(),
+				certificateData.getValidFrom(),
+				certificateData.getValidUntil(),
+				certificateData.getX500Name(),
+				certificateData.getPublicKey());
+				
+				//org.bouncycastle.asn1.x509.SubjectPublicKeyInfo
+			//AuthorityKeyIdentifier auth = new AuthorityKeyIdentifier(certificateData.getKeyPairIssuer().getPublic());
 		
-				
+			//SubjectKeyIdentifier ski = new SubjectKeyIdentifier(certificateData.getKeyPairIssuer().getPublic());
 
-			try {
+			JcaX509ExtensionUtils extensionUtils=new JcaX509ExtensionUtils();
+	
+			BasicConstraints basicConstraints = new BasicConstraints(true);
+			SubjectKeyIdentifier ski = extensionUtils.createSubjectKeyIdentifier(certificateData.getPublicKey());
+			AuthorityKeyIdentifier aki = extensionUtils.createAuthorityKeyIdentifier(issuerData.getPublicKey());
+			
+				certGen.addExtension(new ASN1ObjectIdentifier("2.5.29.19"), true, basicConstraints);
 				certGen.addExtension(new ASN1ObjectIdentifier("2.5.29.15"), true, new KeyUsage(KeyUsage.digitalSignature));
-			} catch (CertIOException e) {
-				
-				e.printStackTrace();
-			}
+				certGen.addExtension(new ASN1ObjectIdentifier("2.5.29.14"), false, ski);
+				certGen.addExtension(new ASN1ObjectIdentifier("2.5.29.35"), false, aki);
+
 			
 			
 			//Generise se sertifikat
@@ -143,19 +187,15 @@ public class CertificateDataService {
 
 			//Konvertuje objekat u sertifikat
 			return certConverter.getCertificate(certHolder);
-		} catch (CertificateEncodingException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (OperatorCreationException e) {
-			e.printStackTrace();
-		} catch (CertificateException e) {
-			e.printStackTrace();
 		}
-		return null;
-	}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+
+}
+		
+	
 
 
 	private KeyPair generateKeyPair(){
@@ -182,6 +222,10 @@ public class CertificateDataService {
 			cert.verify(keyPairIssuer.getPublic());
 			System.out.println("\nValidacija uspesna :)");
 			
+			System.out.println("\nValidacija uspesna :)");
+			
+			System.out.println("\nValidacija uspesna :)");
+			
 		} catch(CertificateException e) {
 			e.printStackTrace();
 		} catch (InvalidKeyException e) {
@@ -196,5 +240,14 @@ public class CertificateDataService {
 		}
 	}
 
-	
+
+
+
+
+
+
+
+	/*
+		void revokeAllChildren(Certificate sertifikat, List<Certifikate)
+	*/
 }

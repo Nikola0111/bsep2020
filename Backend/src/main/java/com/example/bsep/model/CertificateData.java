@@ -1,10 +1,11 @@
 package com.example.bsep.model;
 
 
-import java.security.KeyPair;
+
+import java.math.BigInteger;
+import java.security.PublicKey;
 import java.util.Date;
 
-import javax.security.auth.x500.X500Principal;
 
 import org.bouncycastle.asn1.x500.X500Name;
 
@@ -14,9 +15,9 @@ public class CertificateData {
     
 	private Long id;
 	
-	private String serialNumber;
+	private BigInteger serialNumber;
 
-	private KeyPair keyPairIssuer;
+	private PublicKey publicKey;
 
 	private X500Name x500Name;
 
@@ -30,9 +31,9 @@ public class CertificateData {
 
 	public CertificateData() { }
 	
-	public CertificateData(String serialNumber, KeyPair keyPairIssuer, X500Name x500Name, Date validFrom, Date validUntil){
+	public CertificateData(BigInteger serialNumber, PublicKey publicKey, X500Name x500Name, Date validFrom, Date validUntil){
 		this.serialNumber = serialNumber;
-		this.keyPairIssuer = keyPairIssuer;
+		this.publicKey = publicKey;
 		this.x500Name = x500Name;
 		this.validFrom=validFrom;
 		this.validUntil=validUntil;
@@ -49,20 +50,20 @@ public class CertificateData {
 		this.id = id;
 	}
 
-	public String getSerialNumber() {
+	public BigInteger getSerialNumber() {
 		return this.serialNumber;
 	}
 
-	public void setSerialNumber(String serialNumber) {
+	public void setSerialNumber(BigInteger serialNumber) {
 		this.serialNumber = serialNumber;
 	}
 
-	public KeyPair getKeyPairIssuer() {
-		return this.keyPairIssuer;
+	public PublicKey getPublicKey() {
+		return this.publicKey;
 	}
 
-	public void setKeyPairIssuer(KeyPair keyPairIssuer) {
-		this.keyPairIssuer = keyPairIssuer;
+	public void setPublicKey(PublicKey publicKey) {
+		this.publicKey = publicKey;
 	}
 
 

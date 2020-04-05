@@ -7,6 +7,8 @@ public class CertificateCreationDTO {
 
 	private Long requestingID;
 
+	
+
 	private String requestingName;
 
 	private String requestingSurname;
