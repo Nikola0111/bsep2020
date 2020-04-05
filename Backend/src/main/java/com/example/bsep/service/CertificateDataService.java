@@ -42,14 +42,18 @@ public class CertificateDataService {
 	
 	public void newCertificateRoot() {
 
+		
+
 	}
 
 
 
 	
 
-	public void save(CertificateCreationDTO  certificateCreationDTO, String issuerSN, CertType type) {
-        KeyPair keyPair;
+	public void save(CertificateCreationDTO  certificateCreationDTO, BigInteger issuerBI) {
+		String issuerSN=issuerBI.toString();
+		KeyPair keyPair;
+		CertType type=certificateCreationDTO.getCertType();
         CertificateData subject;
         IssuerData issuer;
         X509Certificate certificate;

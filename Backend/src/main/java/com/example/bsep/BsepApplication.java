@@ -8,6 +8,7 @@ public class BsepApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BsepApplication.class, args);
+		
 	}
 
 }
