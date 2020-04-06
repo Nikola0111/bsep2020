@@ -4,7 +4,7 @@ import com.example.bsep.model.CertType;
 import com.example.bsep.model.CertificateData;
 import com.example.bsep.model.IssuerData;
 
-import com.example.bsep.dtos.CertificateCreationDTO;
+import com.example.bsep.DTOs.CertificateCreationDTO;
 
 import java.util.List;
 import java.util.Calendar;
