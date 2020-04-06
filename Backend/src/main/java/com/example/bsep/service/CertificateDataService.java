@@ -1,4 +1,5 @@
 package com.example.bsep.service;
+
 import com.example.bsep.model.CertType;
 import com.example.bsep.model.CertificateData;
 import com.example.bsep.model.IssuerData;
@@ -40,18 +41,17 @@ public class CertificateDataService {
 	KeyStoreService keyStoreService;
 
 	
-	public void newCertificateRoot() {
-
-		
-
-	}
-
-
-
 	
 
-	public void save(CertificateCreationDTO  certificateCreationDTO, BigInteger issuerBI) {
-		String issuerSN=issuerBI.toString();
+	public void save(CertificateCreationDTO  certificateCreationDTO) {
+		BigInteger issuerBI=certificateCreationDTO.getIssuerBI();
+		String issuerSN=null;
+
+		//ako je BI null proce i upasce u root
+		if(issuerBI!=null){
+			issuerSN=issuerBI.toString();
+		}
+		
 		KeyPair keyPair;
 		CertType type=certificateCreationDTO.getCertType();
         CertificateData subject;
@@ -60,6 +60,7 @@ public class CertificateDataService {
 	
 
         if (issuerSN == null || type == CertType.ROOT) {
+			System.out.print("Usao u root ");
             keyPair = generateKeyPair();
             subject = generateCertificateData(keyPair.getPublic(), certificateCreationDTO, true);
             issuer =createRootIssuerData(keyPair, certificateCreationDTO, subject.getSerialNumber());
@@ -78,7 +79,7 @@ public class CertificateDataService {
         }
 
         try {
-            keyStoreService.store(new X509Certificate[]{certificate}, keyPair.getPrivate());
+			keyStoreService.store(new X509Certificate[]{certificate}, keyPair.getPrivate());
             if (type == CertType.ENDENTITY) {
            //     storage.createTrustStorage(certificate);
             }
@@ -112,11 +113,14 @@ public class CertificateDataService {
 			builder.addRDN(BCStyle.E, certificateCreationDTO.getRequestingEmail());
 			builder.addRDN(BCStyle.UID, certificateCreationDTO.getX500RequestingUID());
 
+			System.out.print("pROSLO SVE ");
 			return new CertificateData(serialNumber, publicKey, builder.build(), startDate.getTime(),endDate.getTime());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.print("VRATIO JE NULL PUKO JE ");
 		return null;
+		
 	}
 
 

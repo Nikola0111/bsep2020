@@ -1,55 +1,39 @@
 package com.example.bsep.service;
-
-import com.example.bsep.model.CertType;
-import com.example.bsep.model.CertificateData;
+import com.example.bsep.dtos.CertificateDTO;
 import com.example.bsep.model.IssuerData;
-
-import com.example.bsep.dtos.CertificateCreationDTO;
-
 import java.util.List;
-import java.util.Calendar;
-import java.util.Date;
-
-import org.bouncycastle.asn1.ASN1ObjectIdentifier;
-import org.bouncycastle.asn1.x500.X500NameBuilder;
-import org.bouncycastle.asn1.x500.style.BCStyle;
-import org.bouncycastle.asn1.x509.AuthorityKeyIdentifier;
-import org.bouncycastle.asn1.x509.BasicConstraints;
-import org.bouncycastle.asn1.x509.KeyUsage;
-
-import org.bouncycastle.cert.CertIOException;
-import org.bouncycastle.cert.X509CertificateHolder;
-import org.bouncycastle.cert.X509v3CertificateBuilder;
-import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
-import org.bouncycastle.cert.jcajce.JcaX509v3CertificateBuilder;
-import org.bouncycastle.operator.ContentSigner;
-import org.bouncycastle.operator.OperatorCreationException;
-import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
-
+import javax.ws.rs.NotFoundException;
 import org.springframework.stereotype.Service;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.math.BigInteger;
-import java.security.InvalidKeyException;
 import java.security.Key;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
 import java.security.KeyStore;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
-import java.security.SecureRandom;
-import java.security.SignatureException;
-import java.security.cert.CertificateEncodingException;
-import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
 
 @Service
 public class KeyStoreService {
+
+
+    public List<CertificateDTO> getAll() {
+		return getCertificates()
+			.stream()
+			.map(CertificateDTO::new)
+			.collect(Collectors.toList());
+    }
+    
+
+    public X509Certificate getOne(String serialNumber) {
+		return getCertificate(serialNumber)
+				.orElseThrow(NotFoundException::new);
+	}
 
 
     public void store(X509Certificate[] chain, PrivateKey privateKey) {
@@ -91,6 +75,43 @@ public class KeyStoreService {
         }
     }
 
+    public List<X509Certificate> getCertificates() {	
+		List<X509Certificate> certificates = new ArrayList<>();
+		char[] password = ("password").toCharArray();
+		try {
+			KeyStore keyStore = KeyStore.getInstance("PKCS12");
+            keyStore.load(new FileInputStream("keystore.jks"), password);
+			Enumeration<String> aliases = keyStore.aliases();
+			
+			while (aliases.hasMoreElements()) {
+				String alias = aliases.nextElement();
+				
+				if (keyStore.isKeyEntry(alias)) {		
+					certificates.add(getCertificate(alias).get());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+		
+		return certificates;
+    }
+    
+    public Optional<X509Certificate> getCertificate(String alias) {
+        char[] password = ("password").toCharArray();
+		try {
+			KeyStore keyStore = KeyStore.getInstance("PKCS12");
+            keyStore.load(new FileInputStream("keystore.jks"), password);
+			X509Certificate cert = (X509Certificate) keyStore.getCertificate(alias);
+			return Optional.ofNullable(cert);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+    
+    
 
 
 
