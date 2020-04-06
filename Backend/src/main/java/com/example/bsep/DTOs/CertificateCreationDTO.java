@@ -80,19 +80,6 @@ public class CertificateCreationDTO {
 		this.x500RequestingState = x500RequestingState;
 		this.x500RequestingCountry = x500RequestingCountry;
 		this.x500RequestingUID = x500RequestingUID;
-		this.administratorID = administratorID;
-		this.administratorName = administratorName;
-		this.administratorSurname = administratorSurname;
-		this.administratorEmail = administratorEmail;
-		this.x500AdminCommonName = x500AdminCommonName;
-		this.x500AdminSurname = x500AdminSurname;
-		this.x500AdminGivenname = x500AdminGivenname;
-		this.x500AdminOrganizationUnit = x500AdminOrganizationUnit;
-		this.x500AdminOrganization = x500AdminOrganization;
-		this.x500AdminLocality = x500AdminLocality;
-		this.x500AdminState = x500AdminState;
-		this.x500AdminCountry = x500AdminCountry;
-		this.x500AdminUID = x500AdminUID;
 		this.serialNumber = serialNumber;
 		this.issuerBI = issuerBI;
 	}
@@ -214,13 +201,13 @@ public class CertificateCreationDTO {
 		this.x500RequestingUID = x500RequestingUID;
 	}
 
-	public Long getAdministratorID() {
-		return administratorID;
-	}
-
-	public void setAdministratorID(Long administratorID) {
-		this.administratorID = administratorID;
-	}
+//	public Long getAdministratorID() {
+//		return administratorID;
+//	}
+//
+//	public void setAdministratorID(Long administratorID) {
+//		this.administratorID = administratorID;
+//	}
 
 
 	// public String getAdministratorName() {
@@ -343,4 +330,26 @@ public class CertificateCreationDTO {
 	public void setCertType(CertType CertType) {
 		this.CertType = CertType;
 	};
+
+	@Override
+	public String toString() {
+		return "CertificateCreationDTO{" +
+				"requestingID=" + requestingID +
+				", CertType=" + CertType +
+				", requestingName='" + requestingName + '\'' +
+				", requestingSurname='" + requestingSurname + '\'' +
+				", requestingEmail='" + requestingEmail + '\'' +
+				", x500requestingCommonName='" + x500requestingCommonName + '\'' +
+				", x500RequestingSurname='" + x500RequestingSurname + '\'' +
+				", x500RequestingGivenname='" + x500RequestingGivenname + '\'' +
+				", x500RequestingOrganizationUnit='" + x500RequestingOrganizationUnit + '\'' +
+				", x500RequestingOrganization='" + x500RequestingOrganization + '\'' +
+				", x500RequestingLocality='" + x500RequestingLocality + '\'' +
+				", x500RequestingState='" + x500RequestingState + '\'' +
+				", x500RequestingCountry='" + x500RequestingCountry + '\'' +
+				", x500RequestingUID='" + x500RequestingUID + '\'' +
+				", serialNumber=" + serialNumber +
+				", issuerBI=" + issuerBI +
+				'}';
+	}
 }

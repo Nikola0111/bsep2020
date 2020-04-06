@@ -1,8 +1,9 @@
 package com.example.bsep.controller;
 
+import java.math.BigInteger;
 import java.util.List;
 
-import com.example.bsep.dtos.CertificateCreationDTO;
+import com.example.bsep.DTOs.CertificateCreationDTO;
 import com.example.bsep.dtos.CertificateDTO;
 
 import com.example.bsep.service.CertificateDataService;
@@ -41,12 +42,17 @@ public class CertificateDataController {
 		
 	}
 
-	
 	@GetMapping(value = "/all")
 	public ResponseEntity<List<CertificateDTO>> getFreeAdmins(){
 		List<CertificateDTO> certificateDTOs = keyStoreService.getAll();
 		return new ResponseEntity<>(certificateDTOs, HttpStatus.OK);
 		
+	}
+
+	@PostMapping(value = "/getCertificate", consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> getCertificate(@RequestBody BigInteger serialNumber){
+		//getovanje individualnog sertifikata
+		return new ResponseEntity<String>("Uspelo je", HttpStatus.OK);
 	}
 
 

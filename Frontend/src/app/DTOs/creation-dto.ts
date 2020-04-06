@@ -3,7 +3,7 @@ import {CertType} from '../helpers/cer-type.enum';
 export class CertificateCreationDTO {
 
   private requestingID: number;
-  private CertType: CertType;
+  private certType: CertType;
   private requestingName: string;
   private requestingSurname: string;
   private requestingEmail: string;
@@ -16,58 +16,150 @@ export class CertificateCreationDTO {
   private x500RequestingState: string;
   private x500RequestingCountry: string;
   private x500RequestingUID: string;
-  private administratorID: number;
-  private administratorName: string;
-  private administratorSurname: string;
-  private administratorEmail: string;
-  private x500AdminCommonName: string;
-  private x500AdminSurname: string;
-  private x500AdminGivenname: string;
-  private x500AdminOrganizationUnit: string;
-  private x500AdminOrganization: string;
-  private x500AdminLocality: string;
-  private x500AdminState: string;
-  private x500AdminCountry: string;
-  private x500AdminUID: string;
+  // private administratorID: number;
+  // private administratorName: string;
+  // private administratorSurname: string;
+  // private administratorEmail: string;
+  // private x500AdminCommonName: string;
+  // private x500AdminSurname: string;
+  // private x500AdminGivenname: string;
+  // private x500AdminOrganizationUnit: string;
+  // private x500AdminOrganization: string;
+  // private x500AdminLocality: string;
+  // private x500AdminState: string;
+  // private x500AdminCountry: string;
+  // private x500AdminUID: string;
   private serialNumber: number;
   private issuerBI: number;
 
+  constructor() {
+  }
 
-  constructor(requestingID: number, certType: CertType, requestingName: string, requestingSurname: string, requestingEmail: string,
-              requestingCommonName: string, X500RequestingSurname: string, X500RequestingGivenname: string, X500RequestingOrganizationUnit: string,
-              X500RequestingOrganization: string, X500RequestingLocality: string, X500RequestingState: string, X500RequestingCountry: string,
-              X500RequestingUID: string, administratorID: number, administratorName: string, administratorSurname: string, administratorEmail: string,
-              X500AdminCommonName: string, X500AdminSurname: string, X500AdminGivenname: string, X500AdminOrganizationUnit: string,
-              X500AdminOrganization: string, X500AdminLocality: string, X500AdminState: string, X500AdminCountry: string, X500AdminUID: string,
-              serialNumber: number, issuerBI: number) {
-    this.requestingID = requestingID;
-    this.CertType = certType;
-    this.requestingName = requestingName;
-    this.requestingSurname = requestingSurname;
-    this.requestingEmail = requestingEmail;
-    this.x500requestingCommonName = requestingCommonName;
-    this.x500RequestingSurname = X500RequestingSurname;
-    this.x500RequestingGivenname = X500RequestingGivenname;
-    this.x500RequestingOrganizationUnit = X500RequestingOrganizationUnit;
-    this.x500RequestingOrganization = X500RequestingOrganization;
-    this.x500RequestingLocality = X500RequestingLocality;
-    this.x500RequestingState = X500RequestingState;
-    this.x500RequestingCountry = X500RequestingCountry;
-    this.x500RequestingUID = X500RequestingUID;
-    this.administratorID = administratorID;
-    this.administratorName = administratorName;
-    this.administratorSurname = administratorSurname;
-    this.administratorEmail = administratorEmail;
-    this.x500AdminCommonName = X500AdminCommonName;
-    this.x500AdminSurname = X500AdminSurname;
-    this.x500AdminGivenname = X500AdminGivenname;
-    this.x500AdminOrganizationUnit = X500AdminOrganizationUnit;
-    this.x500AdminOrganization = X500AdminOrganization;
-    this.x500AdminLocality = X500AdminLocality;
-    this.x500AdminState = X500AdminState;
-    this.x500AdminCountry = X500AdminCountry;
-    this.x500AdminUID = X500AdminUID;
-    this.serialNumber = serialNumber;
-    this.issuerBI = issuerBI;
+  get _requestingID(): number {
+    return this.requestingID;
+  }
+
+  set _requestingID(value: number) {
+    this.requestingID = value;
+  }
+
+  get _requestingName(): string {
+    return this.requestingName;
+  }
+
+  set _requestingName(value: string) {
+    this.requestingName = value;
+  }
+
+  get _requestingSurname(): string {
+    return this.requestingSurname;
+  }
+
+  set _requestingSurname(value: string) {
+    this.requestingSurname = value;
+  }
+
+  get _requestingEmail(): string {
+    return this.requestingEmail;
+  }
+
+  set _requestingEmail(value: string) {
+    this.requestingEmail = value;
+  }
+
+  get _x500RequestingState(): string {
+    return this.x500RequestingState;
+  }
+
+  set _x500RequestingState(value: string) {
+    this.x500RequestingState = value;
+  }
+
+  get _x500requestingCommonName(): string {
+    return this.x500requestingCommonName;
+  }
+
+  set _x500requestingCommonName(value: string) {
+    this.x500requestingCommonName = value;
+  }
+
+  get _x500RequestingSurname(): string {
+    return this.x500RequestingSurname;
+  }
+
+  set _x500RequestingSurname(value: string) {
+    this.x500RequestingSurname = value;
+  }
+
+  get _x500RequestingGivenname(): string {
+    return this.x500RequestingGivenname;
+  }
+
+  set _x500RequestingGivenname(value: string) {
+    this.x500RequestingGivenname = value;
+  }
+
+  get _x500RequestingOrganizationUnit(): string {
+    return this.x500RequestingOrganizationUnit;
+  }
+
+  set _x500RequestingOrganizationUnit(value: string) {
+    this.x500RequestingOrganizationUnit = value;
+  }
+
+  get _x500RequestingOrganization(): string {
+    return this.x500RequestingOrganization;
+  }
+
+  set _x500RequestingOrganization(value: string) {
+    this.x500RequestingOrganization = value;
+  }
+
+  get _x500RequestingLocality(): string {
+    return this.x500RequestingLocality;
+  }
+
+  set _x500RequestingLocality(value: string) {
+    this.x500RequestingLocality = value;
+  }
+
+  get _x500RequestingCountry(): string {
+    return this.x500RequestingCountry;
+  }
+
+  set _x500RequestingCountry(value: string) {
+    this.x500RequestingCountry = value;
+  }
+
+  get _x500RequestingUID(): string {
+    return this.x500RequestingUID;
+  }
+
+  set _x500RequestingUID(value: string) {
+    this.x500RequestingUID = value;
+  }
+
+  get _certType(): CertType {
+    return this.certType;
+  }
+
+  set _certType(value: CertType) {
+    this.certType = value;
+  }
+
+  get _serialNumber(): number {
+    return this.serialNumber;
+  }
+
+  set _serialNumber(value: number) {
+    this.serialNumber = value;
+  }
+
+  get _issuerBi(): number {
+    return this.issuerBI;
+  }
+
+  set _issuerBi(value: number) {
+    this.issuerBI = value;
   }
 }

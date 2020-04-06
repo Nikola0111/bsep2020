@@ -11,9 +11,12 @@
   <li><label><h2>Certificate list</h2> </label></li>
 
   <li *ngFor="let c of certificates">
-    <label> {{c.id}} </label>
-    <input (click) = "preview(c.id)" type="submit" value="Preview"/>
-    <input (click) = "revoke(c.id)" type="reset" value="Revoke"/>
-    <input (click) = "download(c.id)" type="button" value="Download"/>
+    <label> Email: {{c.email}} </label>
+    <label> Common name: {{c.commonName}} </label>
+    <label> Surname: {{c.surname}} </label>
+    <label> Country code: {{c.countryCode}} </label>
+    <input (click) = "preview(c.serialNumber)" type="submit" value="Preview"/>
+    <input (click) = "revoke(c.serialNumber)" type="reset" value="Revoke"/>
+    <input (click) = "download(c.serialNumber)" type="button" value="Download"/>
   </li>
 </ul>

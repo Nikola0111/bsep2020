@@ -31,3 +31,7 @@
 .topnav .icon {
   display: none;
 }
+
+.topnav {
+  font-family: Arial;
+}
