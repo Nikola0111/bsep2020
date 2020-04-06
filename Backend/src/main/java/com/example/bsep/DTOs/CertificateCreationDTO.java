@@ -1,6 +1,7 @@
 
 package com.example.bsep.dtos;
 
+
 import java.math.BigInteger;
 
 import com.example.bsep.model.CertType;
@@ -35,35 +36,37 @@ public class CertificateCreationDTO {
 
 	private String X500RequestingUID;
 
-	private Long administratorID;
-
-	private String administratorName;
-
-	private String administratorSurname;
-
-	private String administratorEmail;
-
-	private String X500AdminCommonName;
-
-	private String X500AdminSurname;
-
-	private String X500AdminGivenname;
-
-	private String X500AdminOrganizationUnit;
-
-	private String X500AdminOrganization;
-
-	private String X500AdminLocality;
-
-	private String X500AdminState;
-
-	private String X500AdminCountry;
-
-	private String X500AdminUID;
 
 	private BigInteger serialNumber;
 
 	private BigInteger issuerBI;
+	// private Long administratorID;
+
+	// private String administratorName;
+
+	// private String administratorSurname;
+
+	// private String administratorEmail;
+
+	// private String X500AdminCommonName;
+
+	// private String X500AdminSurname;
+
+	// private String X500AdminGivenname;
+
+	// private String X500AdminOrganizationUnit;
+
+	// private String X500AdminOrganization;
+
+	// private String X500AdminLocality;
+
+	// private String X500AdminState;
+
+	// private String X500AdminCountry;
+
+	// private String X500AdminUID;
+
+
 
 	
 
@@ -184,109 +187,109 @@ public class CertificateCreationDTO {
 		this.X500RequestingUID = X500RequestingUID;
 	}
 
-	public String getAdministratorName() {
-		return this.administratorName;
-	}
+	// public String getAdministratorName() {
+	// 	return this.administratorName;
+	// }
 
-	public void setAdministratorName(String administratorName) {
-		this.administratorName = administratorName;
-	}
+	// public void setAdministratorName(String administratorName) {
+	// 	this.administratorName = administratorName;
+	// }
 
-	public String getAdministratorSurname() {
-		return this.administratorSurname;
-	}
+	// public String getAdministratorSurname() {
+	// 	return this.administratorSurname;
+	// }
 
-	public void setAdministratorSurname(String administratorSurname) {
-		this.administratorSurname = administratorSurname;
-	}
+	// public void setAdministratorSurname(String administratorSurname) {
+	// 	this.administratorSurname = administratorSurname;
+	// }
 
-	public String getAdministratorEmail() {
-		return this.administratorEmail;
-	}
+	// public String getAdministratorEmail() {
+	// 	return this.administratorEmail;
+	// }
 
-	public Long getAdministratorID() {
-		return this.administratorID;
-	}
+	// public Long getAdministratorID() {
+	// 	return this.administratorID;
+	// }
 
-	public void setAdministratorID(Long administratorID) {
-		this.administratorID = administratorID;
-	}
+	// public void setAdministratorID(Long administratorID) {
+	// 	this.administratorID = administratorID;
+	// }
 
-	public void setAdministratorEmail(String administratorEmail) {
-		this.administratorEmail = administratorEmail;
-	}
+	// public void setAdministratorEmail(String administratorEmail) {
+	// 	this.administratorEmail = administratorEmail;
+	// }
 
-	public String getX500AdminCommonName() {
-		return this.X500AdminCommonName;
-	}
+	// public String getX500AdminCommonName() {
+	// 	return this.X500AdminCommonName;
+	// }
 
-	public void setX500AdminCommonName(String X500AdminCommonName) {
-		this.X500AdminCommonName = X500AdminCommonName;
-	}
+	// public void setX500AdminCommonName(String X500AdminCommonName) {
+	// 	this.X500AdminCommonName = X500AdminCommonName;
+	// }
 
-	public String getX500AdminSurname() {
-		return this.X500AdminSurname;
-	}
+	// public String getX500AdminSurname() {
+	// 	return this.X500AdminSurname;
+	// }
 
-	public void setX500AdminSurname(String X500AdminSurname) {
-		this.X500AdminSurname = X500AdminSurname;
-	}
+	// public void setX500AdminSurname(String X500AdminSurname) {
+	// 	this.X500AdminSurname = X500AdminSurname;
+	// }
 
-	public String getX500AdminGivenname() {
-		return this.X500AdminGivenname;
-	}
+	// public String getX500AdminGivenname() {
+	// 	return this.X500AdminGivenname;
+	// }
 
-	public void setX500AdminGivenname(String X500AdminGivenname) {
-		this.X500AdminGivenname = X500AdminGivenname;
-	}
+	// public void setX500AdminGivenname(String X500AdminGivenname) {
+	// 	this.X500AdminGivenname = X500AdminGivenname;
+	// }
 
-	public String getX500AdminOrganizationUnit() {
-		return this.X500AdminOrganizationUnit;
-	}
+	// public String getX500AdminOrganizationUnit() {
+	// 	return this.X500AdminOrganizationUnit;
+	// }
 
-	public void setX500AdminOrganizationUnit(String X500AdminOrganizationUnit) {
-		this.X500AdminOrganizationUnit = X500AdminOrganizationUnit;
-	}
+	// public void setX500AdminOrganizationUnit(String X500AdminOrganizationUnit) {
+	// 	this.X500AdminOrganizationUnit = X500AdminOrganizationUnit;
+	// }
 
-	public String getX500AdminOrganization() {
-		return this.X500AdminOrganization;
-	}
+	// public String getX500AdminOrganization() {
+	// 	return this.X500AdminOrganization;
+	// }
 
-	public void setX500AdminOrganization(String X500AdminOrganization) {
-		this.X500AdminOrganization = X500AdminOrganization;
-	}
+	// public void setX500AdminOrganization(String X500AdminOrganization) {
+	// 	this.X500AdminOrganization = X500AdminOrganization;
+	// }
 
-	public String getX500AdminLocality() {
-		return this.X500AdminLocality;
-	}
+	// public String getX500AdminLocality() {
+	// 	return this.X500AdminLocality;
+	// }
 
-	public void setX500AdminLocality(String X500AdminLocality) {
-		this.X500AdminLocality = X500AdminLocality;
-	}
+	// public void setX500AdminLocality(String X500AdminLocality) {
+	// 	this.X500AdminLocality = X500AdminLocality;
+	// }
 
-	public String getX500AdminState() {
-		return this.X500AdminState;
-	}
+	// public String getX500AdminState() {
+	// 	return this.X500AdminState;
+	// }
 
-	public void setX500AdminState(String X500AdminState) {
-		this.X500AdminState = X500AdminState;
-	}
+	// public void setX500AdminState(String X500AdminState) {
+	// 	this.X500AdminState = X500AdminState;
+	// }
 
-	public String getX500AdminCountry() {
-		return this.X500AdminCountry;
-	}
+	// public String getX500AdminCountry() {
+	// 	return this.X500AdminCountry;
+	// }
 
-	public void setX500AdminCountry(String X500AdminCountry) {
-		this.X500AdminCountry = X500AdminCountry;
-	}
+	// public void setX500AdminCountry(String X500AdminCountry) {
+	// 	this.X500AdminCountry = X500AdminCountry;
+	// }
 
-	public String getX500AdminUID() {
-		return this.X500AdminUID;
-	}
+	// public String getX500AdminUID() {
+	// 	return this.X500AdminUID;
+	// }
 
-	public void setX500AdminUID(String X500AdminUID) {
-		this.X500AdminUID = X500AdminUID;
-	}
+	// public void setX500AdminUID(String X500AdminUID) {
+	// 	this.X500AdminUID = X500AdminUID;
+	// }
 
 	public BigInteger getSerialNumber() {
 		return this.serialNumber;
