@@ -1,6 +1,8 @@
 
 package com.example.bsep.dtos;
 
+import java.math.BigInteger;
+
 import com.example.bsep.model.CertType;
 
 public class CertificateCreationDTO {
@@ -59,10 +61,15 @@ public class CertificateCreationDTO {
 
 	private String X500AdminUID;
 
-	private String serialNumber;
+	private BigInteger serialNumber;
+
+	private BigInteger issuerBI;
+
+	
 
 	public CertificateCreationDTO() {
-		
+
+	
 	}
 
 	public Long getRequestingID() {
@@ -71,6 +78,14 @@ public class CertificateCreationDTO {
 
 	public void setRequestingID(Long requestingID) {
 		this.requestingID = requestingID;
+	}
+
+	public BigInteger getIssuerBI() {
+		return this.issuerBI;
+	}
+
+	public void setIssuerBI(BigInteger issuerBI) {
+		this.issuerBI = issuerBI;
 	}
 
 	public String getRequestingName() {
@@ -273,11 +288,11 @@ public class CertificateCreationDTO {
 		this.X500AdminUID = X500AdminUID;
 	}
 
-	public String getSerialNumber() {
+	public BigInteger getSerialNumber() {
 		return this.serialNumber;
 	}
 
-	public void setSerialNumber(String serialNumber) {
+	public void setSerialNumber(BigInteger serialNumber) {
 		this.serialNumber = serialNumber;
 	}
 
