@@ -8,6 +8,7 @@ import {AdministratorModule} from './modules/general/administrator/administrator
 import {HttpClientModule} from '@angular/common/http';
 import {FormaModule} from './modules/general/administrator/forma/forma.module';
 import {ListaSertifikataModule} from './modules/general/administrator/listaSertifikata/listaSertifikata.module';
+import {CertificateService} from './modules/service/certificate.service';
 
 
 @NgModule({
@@ -22,7 +23,13 @@ import {ListaSertifikataModule} from './modules/general/administrator/listaSerti
     FormaModule,
     ListaSertifikataModule
   ],
-  providers: [],
+  providers: [CertificateService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(certificateService: CertificateService){
+    
+
+
+  }
+}
