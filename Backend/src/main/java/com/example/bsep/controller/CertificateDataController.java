@@ -30,10 +30,7 @@ public class CertificateDataController {
 	
 	@PostMapping(value="/save", consumes = "application/json")
 	public ResponseEntity<CertificateCreationDTO> saveCertificate(@RequestBody CertificateCreationDTO certificateCreationDTO){
-		
-		
 		certificateDataService.save(certificateCreationDTO);
-	
 		return new ResponseEntity<>(HttpStatus.OK);
 		
 	}
