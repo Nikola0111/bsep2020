@@ -2,8 +2,6 @@ package com.example.bsep.model;
 
 import javax.persistence.Entity;
 import org.bouncycastle.asn1.x500.X500Name;
-import sun.security.x509.AuthorityKeyIdentifierExtension;
-
 //@Entity
 public class Administrator {
 

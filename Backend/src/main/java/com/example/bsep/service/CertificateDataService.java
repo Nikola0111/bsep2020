@@ -3,7 +3,7 @@ package com.example.bsep.service;
 import com.example.bsep.model.CertType;
 import com.example.bsep.model.CertificateData;
 import com.example.bsep.model.IssuerData;
-import com.example.bsep.dtos.CertificateCreationDTO;
+import com.example.bsep.DTOs.CertificateCreationDTO;
 import java.util.Calendar;
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.x500.X500NameBuilder;
@@ -44,6 +44,7 @@ public class CertificateDataService {
 	
 
 	public void save(CertificateCreationDTO  certificateCreationDTO) {
+		System.out.println("Usao je u servis");
 		BigInteger issuerBI=certificateCreationDTO.getIssuerBI();
 		String issuerSN=null;
 
@@ -104,7 +105,7 @@ public class CertificateDataService {
 			//FALI PROVERA VALIDNOSTI DATU
 
 			X500NameBuilder builder = new X500NameBuilder(BCStyle.INSTANCE);
-			builder.addRDN(BCStyle.CN, certificateCreationDTO.getX500RequestingCommonName());
+			builder.addRDN(BCStyle.CN, certificateCreationDTO.getX500requestingCommonName());
 			builder.addRDN(BCStyle.GIVENNAME, certificateCreationDTO.getX500RequestingGivenname());
 			builder.addRDN(BCStyle.SURNAME, certificateCreationDTO.getX500RequestingSurname());
 			builder.addRDN(BCStyle.O, certificateCreationDTO.getX500RequestingOrganizationUnit());
@@ -128,7 +129,7 @@ public class CertificateDataService {
 
 
 		X500NameBuilder builder = new X500NameBuilder(BCStyle.INSTANCE);
-			builder.addRDN(BCStyle.CN, certificateCreationDTO.getX500RequestingCommonName());
+			builder.addRDN(BCStyle.CN, certificateCreationDTO.getX500requestingCommonName());
 			builder.addRDN(BCStyle.GIVENNAME, certificateCreationDTO.getX500RequestingGivenname());
 			builder.addRDN(BCStyle.SURNAME, certificateCreationDTO.getX500RequestingSurname());
 			builder.addRDN(BCStyle.O, certificateCreationDTO.getX500RequestingOrganizationUnit());
