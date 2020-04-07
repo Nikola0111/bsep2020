@@ -47,14 +47,20 @@ public class CertificateDataService {
 		System.out.println("Usao je u servis");
 		BigInteger issuerBI=certificateCreationDTO.getIssuerBI();
 		String issuerSN=null;
-
+		CertType type=certificateCreationDTO.getCertType();
 		//ako je BI null proce i upasce u root
 		if(issuerBI!=null){
 			issuerSN=issuerBI.toString();
+
+		}
+
+		if(type!=CertType.INTERMEDIATE && type!=CertType.ENDENTITY){
+
+			type=CertType.ROOT;
 		}
 		System.out.println("Ovo je issuerSN: " + issuerSN);
 		KeyPair keyPair;
-		CertType type=certificateCreationDTO.getCertType();
+		type=certificateCreationDTO.getCertType();
         CertificateData subject;
         IssuerData issuer;
         X509Certificate certificate;
@@ -81,10 +87,10 @@ public class CertificateDataService {
         }
 
         try {
-			keyStoreService.store(new X509Certificate[]{certificate}, keyPair.getPrivate());
-            if (type == CertType.ENDENTITY) {
-           //     storage.createTrustStorage(certificate);
-            }
+			
+			keyStoreService.store(new X509Certificate[]{certificate}, keyPair.getPrivate(), type);
+			
+           
         } catch(Exception e){
 			e.printStackTrace();
 		}
