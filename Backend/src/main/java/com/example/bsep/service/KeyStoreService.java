@@ -1,5 +1,6 @@
 package com.example.bsep.service;
 import com.example.bsep.dtos.CertificateDTO;
+import com.example.bsep.model.CertType;
 import com.example.bsep.model.IssuerData;
 import java.util.List;
 import java.util.ArrayList;
@@ -36,23 +37,40 @@ public class KeyStoreService {
 	}
 
 
-    public void store(X509Certificate[] chain, PrivateKey privateKey) {
+    public void store(X509Certificate[] chain, PrivateKey privateKey,CertType type) {
         char[] password = ("password").toCharArray();
+        String fileName = "keystore.jks";
+        if(type==CertType.ROOT){
+        password = ("passwordRoot").toCharArray();   
+        fileName="keystoreRoot.jks";
+        }
+        else if(type==CertType.INTERMEDIATE){
+        password = ("passwordIntermediate").toCharArray();
+        fileName = "keystoreIntermediate.jks";
+
+        }
+        else{
+        password = ("passwordEND").toCharArray();  
+        fileName = "keystoreEND.jks";   
+        }
+
         String serialNumber = chain[0].getSerialNumber().toString();
         try {
             KeyStore keyStore = KeyStore.getInstance("PKCS12");
             try {
-                keyStore.load(new FileInputStream("keystore.jks"), password);
+                keyStore.load(new FileInputStream(fileName), password);
             } catch (IOException e) {
                 keyStore.load(null, null);
             }
 
             keyStore.setKeyEntry(serialNumber, privateKey, serialNumber.toCharArray(), chain);
-            keyStore.store(new FileOutputStream("keystore.jks"), password);
+            keyStore.store(new FileOutputStream(fileName), password);
         } catch (Exception e) {
 			e.printStackTrace();
 		}
     }
+
+  
 
 
 

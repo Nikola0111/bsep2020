@@ -2,6 +2,7 @@
 package com.example.bsep.dtos;
 import java.math.BigInteger;
 import java.security.cert.X509Certificate;
+import java.text.SimpleDateFormat;
 
 import org.bouncycastle.asn1.x500.AttributeTypeAndValue;
 import org.bouncycastle.asn1.x500.RDN;
@@ -19,12 +20,15 @@ public class CertificateDTO {
 	private String countryCode;
 	private String email;
 	private BigInteger serialNumber;
+	private String validFrom;
+	private String validUntil;
 	private String status;
 	
 	public CertificateDTO(X509Certificate certificate) {
 		try {
 			X500Name name = new JcaX509CertificateHolder(certificate).getSubject();
 			RDN[] rnds = name.getRDNs();
+		
 
 			for (RDN rdn: rnds) {
 				AttributeTypeAndValue[] values = rdn.getTypesAndValues();
@@ -48,6 +52,12 @@ public class CertificateDTO {
 			}
 
 			serialNumber = certificate.getSerialNumber();
+			SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");  
+			
+			//EVO NIKOLICE STRING JE 
+			validFrom = formatter.format(certificate.getNotBefore());
+			validUntil=formatter.format(certificate.getNotAfter());
+
 		}  catch(Exception e){
 			e.printStackTrace();
 		}
@@ -68,6 +78,23 @@ public class CertificateDTO {
 	public String getSurname() {
 		return surname;
 	}
+
+	public String getValidFrom() {
+		return this.validFrom;
+	}
+
+	public void setValidFrom(String validFrom) {
+		this.validFrom = validFrom;
+	}
+
+	public String getValidUntil() {
+		return this.validUntil;
+	}
+
+	public void setValidUntil(String validUntil) {
+		this.validUntil = validUntil;
+	}
+
 
 	public String getOrganization() {
 		return organization;
