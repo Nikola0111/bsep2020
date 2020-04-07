@@ -3,7 +3,7 @@ package com.example.bsep.controller;
 import java.math.BigInteger;
 import java.util.List;
 
-import com.example.bsep.DTOs.CertificateCreationDTO;
+import com.example.bsep.dtos.CertificateCreationDTO;
 import com.example.bsep.dtos.CertificateDTO;
 
 import com.example.bsep.service.CertificateDataService;
