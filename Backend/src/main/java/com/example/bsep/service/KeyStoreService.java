@@ -108,7 +108,7 @@ public class KeyStoreService {
                 KeyStore keyStore2 = KeyStore.getInstance("PKCS12");
                 keyStore2.load(new FileInputStream("keystoreIntermediate.jks"), password);
     
-                Key key2 = keyStore.getKey(serialNumber, serialNumber.toCharArray());
+                Key key2 = keyStore2.getKey(serialNumber, serialNumber.toCharArray());
                 if (key2 instanceof PrivateKey) {
                     X509Certificate cert = (X509Certificate) keyStore2.getCertificate(serialNumber);
                     return new IssuerData((PrivateKey) key2, new JcaX509CertificateHolder(cert).getSubject(),
