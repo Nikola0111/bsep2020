@@ -83,7 +83,10 @@ public class RevokeService {
 			allCertificates.removeAll(childRevokeList);
 			recursion(certificates, childRevokeList, allCertificates);
 		});
-	}
-	
+    }
+    
+
+
+    
 
 }

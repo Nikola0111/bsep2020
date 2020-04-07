@@ -131,6 +131,22 @@ public class KeyStoreService {
 		return certificates;
     }
 
+    public List<CertificateDTO> getCAs (){
+        List<X509Certificate> certificates = new ArrayList<>();
+        List<CertificateDTO> certificateDTOs=new ArrayList<>();
+        
+        certificates.addAll(getKeyStoreCertificates(("passwordRoot").toCharArray(),"keystoreRoot.jks"));
+        certificates.addAll(getKeyStoreCertificates(("passwordIntermediate").toCharArray(),"keystoreIntermediate.jks"));
+
+        for (X509Certificate cert : certificates) {
+
+            certificateDTOs.add(new CertificateDTO(cert));
+            
+        }
+
+        return certificateDTOs;
+    }
+
 
 
     public List<X509Certificate> getKeyStoreCertificates(char[] password,String keyStoreName){
@@ -184,7 +200,7 @@ public class KeyStoreService {
     
 
     @SuppressWarnings("unchecked")
-	public boolean checkValidity(X509Certificate x509Certificate) {
+	private boolean checkValidity(X509Certificate x509Certificate) {
 		
 		List<X509Certificate> certificates = new ArrayList<>();
 		
