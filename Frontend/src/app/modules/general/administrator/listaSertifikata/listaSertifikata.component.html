@@ -7,16 +7,31 @@
 </div>
 
 
-<ul class="form-style-1">
+<ul style ="float:left; margin-left: 40%" class="form-style-1">
   <li><label><h2>Certificate list</h2> </label></li>
 
   <li *ngFor="let c of certificates">
     <label> Email: {{c.email}} </label>
-    <label> Common name: {{c.commonName}} </label>
-    <label> Surname: {{c.surname}} </label>
-    <label> Country code: {{c.countryCode}} </label>
-    <input (click) = "preview(c.serialNumber)" type="submit" value="Preview"/>
-    <input (click) = "revoke(c.serialNumber)" type="reset" value="Revoke"/>
+    <label> Serial number: {{c.serialNumber}} </label>
+    <input (click) = "preview(c)" type="submit" value="Preview"/>
+    <input (click) = "revoke(c.serialNumber)" type="reset" value="revoke"/>
     <input (click) = "download(c.serialNumber)" type="button" value="Download"/>
   </li>
 </ul>
+
+<div class="preview" style = "margin-right: 25%; margin-top: 25px;" *ngIf="selected">
+  <h3>Certificate Preview</h3>
+  <label class = "previewlabel">Common name: <b>{{selectedCertificate.commonName}}</b></label>
+  <label class = "previewlabel">Surname: <b>{{selectedCertificate.surname}}</b></label>
+  <label class = "previewlabel">Given name: <b>{{selectedCertificate.givenname}}</b></label>
+  <label class = "previewlabel">Country code: <b>{{selectedCertificate.countryCode}}</b></label>
+  <label class = "previewlabel">Email: <b>{{selectedCertificate.email}}</b></label>
+  <label class = "previewlabel">Organization: <b>{{selectedCertificate.organization}}</b></label>
+  <label class = "previewlabel">Organization unit: <b>{{selectedCertificate.organizationalUnitName}}</b></label>
+  <label class = "previewlabel">Serial number: <b>{{selectedCertificate.serialNumber}}</b></label>
+  <label class = "previewlabel">Valid from: <b>11.06.2019 12:59:23PM</b></label>
+  <label class = "previewlabel">Valid to: <b>11.6.2020 12:59:23PM</b></label>
+  <div style = "float:left;width:250px">
+  <button class = "previewlabel" (click)="selected = false">Close</button>
+  </div>
+</div>

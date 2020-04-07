@@ -19,9 +19,9 @@ export class CertificateService {
     return this.http.get<Array<PreviewCertificateDTO>>(this.requestUrl, httpOptions);
   }
 
-  public revoke(serialNumber: number) {
-    this.requestUrl = '/server/certificate/revoke';
-    return this.http.post(this.requestUrl, serialNumber, httpOptions);
+  public doRevoke(serialNumber: number){
+    const url = `/server/certificate/revoke/${serialNumber}`;
+    return this.http.post(url, httpOptions);
   }
 
   public getCertificate(serialNumber: number) {
@@ -34,5 +34,6 @@ export class CertificateService {
     const body = JSON.stringify(creationDTO);
     return this.http.post<CertificateCreationDTO>('/server/certificate/save', body, httpOptions);
   }
+
 
 }

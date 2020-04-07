@@ -48,7 +48,7 @@ export class AppModule {
     this.creationDTO._x500RequestingCountry = 'Server';
     this.creationDTO._x500RequestingUID = '123';
     this.creationDTO._serialNumber = 1;
-    this.creationDTO._issuerBi = 123312;
+    this.creationDTO._issuerBi = 1;
     // this.creationDummyDTO = new CertificateDummy(1, CertType.ROOT, 'Root', 'Root',
     //   'root_gmail.com', 'comname', 'comsur','givname',
     //   'org', 'org');

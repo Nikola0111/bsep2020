@@ -99,3 +99,14 @@ select{
 h2 {
   color: darkred;
 }
+
+.preview {
+  width: 300px;
+  float: right;
+  font: 13px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+.previewlabel{
+  display: block;
+
+}

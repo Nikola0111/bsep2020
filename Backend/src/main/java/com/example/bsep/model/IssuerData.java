@@ -54,4 +54,14 @@ public class IssuerData {
     public void setSerialNumber(BigInteger serialNumber) {
         this.serialNumber = serialNumber;
     }
+
+    @Override
+    public String toString() {
+        return "IssuerData{" +
+                "x500name=" + x500name +
+                ", privateKey=" + privateKey +
+                ", publicKey=" + publicKey +
+                ", serialNumber=" + serialNumber +
+                '}';
+    }
 }

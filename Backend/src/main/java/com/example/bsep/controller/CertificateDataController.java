@@ -59,19 +59,18 @@ public class CertificateDataController {
 	}
 
 
-	@GetMapping(value="/revoke/{serialNumber}")
+	@PostMapping(value="/revoke/{serialNumber}")
 	public ResponseEntity<List<CertificateDTO>> revoke(@PathVariable("serialNumber") BigInteger serialNumber){
-		
+
 		revokeService.revokeCertificate(serialNumber.toString());
 		return new ResponseEntity<>( HttpStatus.OK);
-		
+
 	}
 
 	@GetMapping(value="/allCAs")
 	public ResponseEntity<List<CertificateDTO>> getAllCas(){
 		List<CertificateDTO> certificateDTOs = keyStoreService.getCAs();
 		return new ResponseEntity<>(certificateDTOs, HttpStatus.OK);
-		
 	}
 
 

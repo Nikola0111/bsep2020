@@ -2,20 +2,20 @@ import {CertType} from '../helpers/cer-type.enum';
 
 export class CertificateCreationDTO {
 
-  private requestingID: number;
-  private certType: CertType;
-  private requestingName: string;
-  private requestingSurname: string;
-  private requestingEmail: string;
-  private x500requestingCommonName: string;
-  private x500RequestingSurname: string;
-  private x500RequestingGivenname: string;
-  private x500RequestingOrganizationUnit: string;
-  private x500RequestingOrganization: string;
-  private x500RequestingLocality: string;
-  private x500RequestingState: string;
-  private x500RequestingCountry: string;
-  private x500RequestingUID: string;
+   requestingID: number;
+   certType: CertType;
+   requestingName: string;
+   requestingSurname: string;
+   requestingEmail: string;
+   x500requestingCommonName: string;
+   x500RequestingSurname: string;
+   x500RequestingGivenname: string;
+   x500RequestingOrganizationUnit: string;
+   x500RequestingOrganization: string;
+   x500RequestingLocality: string;
+   x500RequestingState: string;
+   x500RequestingCountry: string;
+   x500RequestingUID: string;
   // private administratorID: number;
   // private administratorName: string;
   // private administratorSurname: string;
@@ -29,8 +29,8 @@ export class CertificateCreationDTO {
   // private x500AdminState: string;
   // private x500AdminCountry: string;
   // private x500AdminUID: string;
-  private serialNumber: number;
-  private issuerBI: number;
+  serialNumber: number;
+  issuerBI: number;
 
   constructor() {
   }
