@@ -2,6 +2,9 @@ package com.example.bsep.service;
 import com.example.bsep.dtos.CertificateDTO;
 import com.example.bsep.model.CertType;
 import com.example.bsep.model.IssuerData;
+
+import com.example.bsep.DTOs.CertificateCreationDTO;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Enumeration;
