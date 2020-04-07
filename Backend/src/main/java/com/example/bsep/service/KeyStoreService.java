@@ -31,9 +31,23 @@ public class KeyStoreService {
     }
     
 
-    public X509Certificate getOne(String serialNumber) {
-		return getCertificate(serialNumber)
-				.orElseThrow(NotFoundException::new);
+    public Optional<X509Certificate> getOne(String serialNumber) {
+
+        Optional<X509Certificate> x509Certificate=getCertificate(serialNumber, ("passwordRoot").toCharArray(),"keystoreRoot.jks");
+
+        if(x509Certificate==null){
+           x509Certificate=getCertificate(serialNumber, ("passwordIntermediate").toCharArray(),"keystoreIntermediate.jks");
+        
+        }
+        else {
+
+            x509Certificate=getCertificate(serialNumber, ("passwordEND").toCharArray(),"keystoreEND.jks");
+        }
+
+       
+
+
+		return x509Certificate;
 	}
 
 
@@ -75,10 +89,11 @@ public class KeyStoreService {
 
 
     public IssuerData findCAbySerialNumber(String serialNumber) {
-        char[] password = ("password").toCharArray();
+        
         try {
+            char[] password = ("passwordRoot").toCharArray();
             KeyStore keyStore = KeyStore.getInstance("PKCS12");
-            keyStore.load(new FileInputStream("keystore.jks"), password);
+            keyStore.load(new FileInputStream("keystoreRoot.jks"), password);
 
             Key key = keyStore.getKey(serialNumber, serialNumber.toCharArray());
             if (key instanceof PrivateKey) {
@@ -86,7 +101,18 @@ public class KeyStoreService {
                 return new IssuerData((PrivateKey) key, new JcaX509CertificateHolder(cert).getSubject(),
                         cert.getPublicKey(), cert.getSerialNumber());
             } else {
-                return null;
+                password = ("passwordIntermediate").toCharArray();
+                KeyStore keyStore2 = KeyStore.getInstance("PKCS12");
+                keyStore2.load(new FileInputStream("keystoreIntermediate.jks"), password);
+    
+                Key key2 = keyStore.getKey(serialNumber, serialNumber.toCharArray());
+                if (key2 instanceof PrivateKey) {
+                    X509Certificate cert = (X509Certificate) keyStore2.getCertificate(serialNumber);
+                    return new IssuerData((PrivateKey) key2, new JcaX509CertificateHolder(cert).getSubject(),
+                            cert.getPublicKey(), cert.getSerialNumber());
+                } else {
+                    return null;
+                }
             }
         } catch (Exception e) {
             return null;
@@ -95,17 +121,30 @@ public class KeyStoreService {
 
     public List<X509Certificate> getCertificates() {	
 		List<X509Certificate> certificates = new ArrayList<>();
-		char[] password = ("password").toCharArray();
+     
+        
+        certificates.addAll(getKeyStoreCertificates(("passwordRoot").toCharArray(),"keystoreRoot.jks"));
+        certificates.addAll(getKeyStoreCertificates(("passwordIntermediate").toCharArray(),"keystoreIntermediate.jks"));
+		certificates.addAll(getKeyStoreCertificates(("passwordEND").toCharArray(),"keystoreEND.jks"));
+		return certificates;
+    }
+
+
+
+    public List<X509Certificate> getKeyStoreCertificates(char[] password,String keyStoreName){
+
+        List<X509Certificate> certificates = new ArrayList<>();
+		
 		try {
 			KeyStore keyStore = KeyStore.getInstance("PKCS12");
-            keyStore.load(new FileInputStream("keystore.jks"), password);
+            keyStore.load(new FileInputStream(keyStoreName), password);
 			Enumeration<String> aliases = keyStore.aliases();
 			
 			while (aliases.hasMoreElements()) {
 				String alias = aliases.nextElement();
 				
 				if (keyStore.isKeyEntry(alias)) {		
-					certificates.add(getCertificate(alias).get());
+					certificates.add(getCertificate(alias,password,keyStoreName).get());
 				}
 			}
 		} catch (Exception e) {
@@ -113,13 +152,15 @@ public class KeyStoreService {
 		}	
 		
 		return certificates;
+
     }
     
-    public Optional<X509Certificate> getCertificate(String alias) {
-        char[] password = ("password").toCharArray();
+    public Optional<X509Certificate> getCertificate(String alias,char[] password,String keyStoreName) {
+       
 		try {
+            
 			KeyStore keyStore = KeyStore.getInstance("PKCS12");
-            keyStore.load(new FileInputStream("keystore.jks"), password);
+            keyStore.load(new FileInputStream(keyStoreName), password);
 			X509Certificate cert = (X509Certificate) keyStore.getCertificate(alias);
 			return Optional.ofNullable(cert);
 		} catch (Exception e) {
