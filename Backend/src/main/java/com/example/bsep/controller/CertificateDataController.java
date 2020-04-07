@@ -43,6 +43,14 @@ public class CertificateDataController {
 		
 	}
 
+	@GetMapping(value="/revoke")
+	public ResponseEntity<List<CertificateDTO>> revoke(){
+		List<CertificateDTO> certificateDTOs = keyStoreService.getAll();
+		return new ResponseEntity<>(certificateDTOs, HttpStatus.OK);
+		
+	}
+
+
 	
 
 

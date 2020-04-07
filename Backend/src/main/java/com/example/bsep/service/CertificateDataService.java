@@ -180,7 +180,7 @@ public class CertificateDataService {
 
 			JcaX509ExtensionUtils extensionUtils=new JcaX509ExtensionUtils();
 	
-			BasicConstraints basicConstraints = new BasicConstraints(Ca);
+			BasicConstraints basicConstraints = new BasicConstraints(true);
 			SubjectKeyIdentifier ski = extensionUtils.createSubjectKeyIdentifier(certificateData.getPublicKey());
 			AuthorityKeyIdentifier aki = extensionUtils.createAuthorityKeyIdentifier(issuerData.getPublicKey());
 			

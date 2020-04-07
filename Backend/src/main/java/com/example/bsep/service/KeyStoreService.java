@@ -8,11 +8,13 @@ import java.util.Enumeration;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
-import javax.ws.rs.NotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.security.Key;
 import java.security.KeyStore;
 import java.security.PrivateKey;
@@ -31,9 +33,9 @@ public class KeyStoreService {
     }
     
 
-    public Optional<X509Certificate> getOne(String serialNumber) {
+    public X509Certificate getOne(String serialNumber) {
 
-        Optional<X509Certificate> x509Certificate=getCertificate(serialNumber, ("passwordRoot").toCharArray(),"keystoreRoot.jks");
+        X509Certificate x509Certificate=getCertificate(serialNumber, ("passwordRoot").toCharArray(),"keystoreRoot.jks");
 
         if(x509Certificate==null){
            x509Certificate=getCertificate(serialNumber, ("passwordIntermediate").toCharArray(),"keystoreIntermediate.jks");
@@ -143,8 +145,11 @@ public class KeyStoreService {
 			while (aliases.hasMoreElements()) {
 				String alias = aliases.nextElement();
 				
-				if (keyStore.isKeyEntry(alias)) {		
-					certificates.add(getCertificate(alias,password,keyStoreName).get());
+				if (keyStore.isKeyEntry(alias)) {	
+                    
+                    if(getCertificate(alias,password,keyStoreName)!=null){
+                    certificates.add(getCertificate(alias,password,keyStoreName));
+                    }
 				}
 			}
 		} catch (Exception e) {
@@ -155,20 +160,66 @@ public class KeyStoreService {
 
     }
     
-    public Optional<X509Certificate> getCertificate(String alias,char[] password,String keyStoreName) {
+    public X509Certificate getCertificate(String alias,char[] password,String keyStoreName) {
        
 		try {
             
 			KeyStore keyStore = KeyStore.getInstance("PKCS12");
             keyStore.load(new FileInputStream(keyStoreName), password);
-			X509Certificate cert = (X509Certificate) keyStore.getCertificate(alias);
-			return Optional.ofNullable(cert);
+            X509Certificate cert = (X509Certificate) keyStore.getCertificate(alias);
+            
+            
+            
+            if(checkValidity(cert)){
+            return cert;
+            }
+            
+            
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return null;
+    }
+    
+
+    @SuppressWarnings("unchecked")
+	public boolean checkValidity(X509Certificate x509Certificate) {
+		
+		List<X509Certificate> certificates = new ArrayList<>();
+		
+		File file = new File("ocsp.ocsp");
+		
+		if (!file.exists()) {
+			return true;
+		}
+		
+		try {
+			ObjectInputStream iis = new ObjectInputStream(new FileInputStream(file));
+			certificates = (List<X509Certificate>) iis.readObject();
+			iis.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+        }
+        
+        for (X509Certificate cert : certificates) {
+			if (cert.getSerialNumber().equals(x509Certificate.getSerialNumber())) {
+				return false;
+			}
+		} 
+		
+		try {
+			x509Certificate.checkValidity();
+		} catch (Exception e) {
+            e.printStackTrace();
+            return false;
+		}
+		
+	
+		
+		return true;
 	}
+	
     
     
 
