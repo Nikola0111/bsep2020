@@ -52,7 +52,7 @@ public class CertificateDataService {
 		if(issuerBI!=null){
 			issuerSN=issuerBI.toString();
 		}
-		
+		System.out.println("Ovo je issuerSN: " + issuerSN);
 		KeyPair keyPair;
 		CertType type=certificateCreationDTO.getCertType();
         CertificateData subject;
@@ -70,6 +70,7 @@ public class CertificateDataService {
             keyPair = generateKeyPair();
             subject = generateCertificateData(keyPair.getPublic(), certificateCreationDTO, true);
             issuer = keyStoreService.findCAbySerialNumber(issuerSN);
+            System.out.println("Ovo je issuer: " + issuer);
             certificate = generateCertificate(subject, issuer, true);
         }
         else {

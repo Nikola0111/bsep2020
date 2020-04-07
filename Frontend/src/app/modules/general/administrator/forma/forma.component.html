@@ -5,122 +5,89 @@
   <a routerLink="/lista-sertifikata">Certificate list</a>
   <a routerLink="/forma" class="active">New certificate</a>
 </div>
-<form>
+<form (ngSubmit)="onSubmit()" [formGroup]="forma">
   <ul class="form-style-1">
     <li><label><h2>Requesting</h2></label></li>
     <li><label>ID </label>
-      <input type="text" name="requestingID" class="field-long" placeholder="ID"/>
+      <input [(ngModel)] = "certificateCreationDTO.requestingID" formControlName="requestingID" type="text" name="requestingID" class="field-long" placeholder="ID"/>
     </li>
 
     <li>
       <label>Full Name</label>
-      <input type="text" name="requestingName" class="field-divided" placeholder="First" />
-      <input type="text" name="requestingSurname" class="field-divided" placeholder="Last" />
+      <input [(ngModel)] = "certificateCreationDTO.requestingName" formControlName="requestingName" type="text" name="requestingName" class="field-divided" placeholder="First" />
+      <input [(ngModel)] = "certificateCreationDTO.requestingSurname" formControlName="requestingSurname" type="text" name="requestingSurname" class="field-divided" placeholder="Last" />
     </li>
 
     <li>
       <label>Email</label>
-      <input type="email" name="requestingEmail" class="field-long" placeholder="requesting@domain.com" />
+      <input [(ngModel)] = "certificateCreationDTO.requestingEmail" formControlName="requestingEmail" type="email" name="requestingEmail" class="field-long" placeholder="requesting@domain.com" />
     </li>
 
     <li> <label><h2>X500 </h2></label></li>
 
     <li>
       <label> Name </label>
-      <input type="text" name="x500CommonName" class="field-divided" placeholder="Common Name" />
-      <input type="text" name="x500Surname" class="field-divided" placeholder="Surname" />
+      <input [(ngModel)] = "certificateCreationDTO.x500requestingCommonName" formControlName="x500requestingCommonName" type="text" name="x500CommonName" class="field-divided" placeholder="Common Name" />
+      <input [(ngModel)] = "certificateCreationDTO.x500RequestingSurname" formControlName="x500RequestingSurname" type="text" name="x500Surname" class="field-divided" placeholder="Surname" />
     </li>
-    <li><input type="text" name="x500GivenName" class="field-divided" placeholder="Given Name" /></li>
+    <li><input  [(ngModel)] = "certificateCreationDTO.x500RequestingGivenname" formControlName="x500RequestingGivenName" type="text" name="x500GivenName" class="field-divided" placeholder="Given Name" /></li>
 
     <li>
-      <label>Organization </label>
-      <input type="text" name="x500RequestingOrganization" class="field-long" placeholder="Requesting organization" />
+      <label>Organization Unit</label>
+      <input [(ngModel)] = "certificateCreationDTO.x500RequestingOrganizationUnit" formControlName="x500RequestingOrganizationUnit" type="text" name="x500RequestingOrganizationUnit" class="field-long" placeholder="Requesting organization unit" />
+    </li>
+
+    <li>
+      <label>Organization</label>
+      <input [(ngModel)] = "certificateCreationDTO.x500RequestingOrganization" formControlName="x500RequestingOrganization" type="text" name="x500RequestingOrganization" class="field-long" placeholder="Requesting organization"/>
     </li>
 
     <li>
       <label>Locality </label>
-      <input type="text" name="x500RequestingLocality" class="field-long" placeholder="Requesting locality" />
+      <input [(ngModel)] = "certificateCreationDTO.x500RequestingLocality" formControlName="x500RequestingLocality" type="text" name="x500RequestingLocality" class="field-long" placeholder="Requesting locality" />
     </li>
 
     <li>
       <label>State </label>
-      <input type="text" name="x500RequestingState" class="field-long" placeholder="Requesting state" />
+      <input [(ngModel)] = "certificateCreationDTO.x500RequestingState" formControlName="x500RequestingState" type="text" name="x500RequestingState" class="field-long" placeholder="Requesting state" />
     </li>
 
     <li>
       <label>Country </label>
-      <input type="text" name="x500RequestingCountry" class="field-long" placeholder="Requesting country" />
+      <input [(ngModel)] = "certificateCreationDTO.x500RequestingCountry" formControlName="x500RequestingCountry" type="text" name="x500RequestingCountry" class="field-long" placeholder="Requesting country" />
     </li>
 
     <li>
       <label>UID </label>
-      <input type="text" name="x500RequestingUID" class="field-long" placeholder="Requesting UID" />
-    </li>
-    <li><label><h2>Administrator</h2></label></li>
-    <li>
-      <label>ID </label>
-      <input [(ngModel)]="administrator.id" type="text" name="administratorID" class="field-long" placeholder="Administrator ID" />
+      <input [(ngModel)] = "certificateCreationDTO.x500RequestingUID" formControlName="x500RequestingUID" type="text" name="x500RequestingUID" class="field-long" placeholder="Requesting UID" />
     </li>
 
     <li>
-      <label>Full Name </label>
-      <input [(ngModel)]="administrator.name" type="text" name="administratorName" class="field-divided" placeholder="Name" />
-      <input [(ngModel)]="administrator.surname" type="text" name="administratorSurname" class="field-divided" placeholder="Surname" />
-    </li>
-
-    <li>
-      <label>Email </label>
-      <input [(ngModel)]="administrator.email" type="text" name="administratorEmail" class="field-long" placeholder="admin@domain.com" />
-    </li>
-    <li><label><h2>X500 Admin</h2></label></li>
-
-    <li>
-      <label> Name </label>
-      <input type="text" name="adminx500CommonName" class="field-divided" placeholder="Common Name" />
-      <input type="text" name="adminx500Surname" class="field-divided" placeholder="Surname" />
-    </li>
-    <li><input type="text" name="adminx500GivenName" class="field-divided" placeholder="Given Name" /></li>
-
-    <li>
-      <label>Organization Unit </label>
-      <input type="text" name="adminx500OrganizationUnit" class="field-long" placeholder="Organization unit" />
-    </li>
-
-    <li>
-      <label>Organization </label>
-      <input type="text" name="adminx500Organization" class="field-long" placeholder="Organization" />
-    </li>
-
-    <li>
-      <label>Locality</label>
-      <input type="text" name="adminx500Locality" class="field-long" placeholder="Locality" />
-    </li>
-
-    <li>
-      <label>State </label>
-      <input type="text" name="adminx500State" class="field-long" placeholder="State" />
-    </li>
-
-    <li>
-      <label>Country</label>
-      <input type="text" name="adminx500Country" class="field-long" placeholder="Country" />
-    </li>
-
-    <li>
-      <label>UID </label>
-      <input type="text" name="adminx500UID" class="field-long" placeholder="UID" />
+      <input [(ngModel)] ="type" id="root" type="radio" value="Root" formControlName="certType" />
+      <label class = "radio-label">Root</label>
+      <input [(ngModel)] ="type" id="intermediate" type="radio" value="Intermediate" formControlName="certType" />
+      <label  class = "radio-label">Intermediate</label>
+      <input [(ngModel)] ="type" id="end" type="radio" value="End_entity" formControlName="certType"/>
+      <label class = "radio-label">End entity</label>
     </li>
 
     <li><label><h2>Certificate</h2></label></li>
 
+<!--    <li>-->
+<!--      <label>Serial Number </label>-->
+<!--      <input [(ngModel)] = "certificateCreationDTO.serialNumber" formControlName="serialNumber" type="text" name="serialNumber" class="field-long" placeholder="Serial number" />-->
+<!--    </li>-->
+
     <li>
-      <label>Serial Number </label>
-      <input type="text" name="serialNumber" class="field-long" placeholder="Serial number" />
+      <label>Issuer BI </label>
+      <input [(ngModel)] = "certificateCreationDTO.issuerBI" formControlName="issuerBI" type="text" name="issuerBI" class="field-long" placeholder="Issuer BI" />
     </li>
+
     <li>
-      <input (click) = "onSubmit()" type="submit" value="Create" />
+      <input type="submit" value="Create" />
       <input type="reset" value="Cancel" />
     </li>
 
   </ul>
 </form>
+
