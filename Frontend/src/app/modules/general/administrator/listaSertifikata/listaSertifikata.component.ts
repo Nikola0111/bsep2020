@@ -18,12 +18,12 @@ const httpOptions = {
 
 export class ListaSertifikataComponent implements OnInit {
   certificates: PreviewCertificateDTO[];
-  certificateService: CertificateService;
   dialogData: Certificate;
   selected: boolean;
   selectedCertificate: PreviewCertificateDTO;
-  constructor(private router: Router, certificateService: CertificateService) {
-    certificateService.getCertificates().subscribe( data => {
+
+  constructor(private router: Router, public certificateService: CertificateService) {
+    this.certificateService.getCertificates().subscribe( data => {
       console.log(data);
       this.certificates = data;
     });
@@ -43,7 +43,8 @@ export class ListaSertifikataComponent implements OnInit {
   download(serialNumber: number) {}
 
   revoke(serialNumber: number) {
-    this.certificateService.revoke(serialNumber).subscribe();
+    console.log(serialNumber)
+    this.certificateService.doRevoke(serialNumber).subscribe();
   }
 
 }

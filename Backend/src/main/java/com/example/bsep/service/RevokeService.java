@@ -22,6 +22,8 @@ public class RevokeService {
 
 @SuppressWarnings("unchecked")
     public void revokeCertificate(String serialNumber) {
+        System.out.println(serialNumber);
+        System.out.println("Usao u revoke");
         X509Certificate certificate = keyStoreService.getOne(serialNumber);
         List<X509Certificate> certificates = new ArrayList<>();
 

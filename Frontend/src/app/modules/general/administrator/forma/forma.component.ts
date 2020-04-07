@@ -26,10 +26,10 @@ export class FormaComponent  implements OnInit {
 
     if(this.type === 'Root'){
       this.certificateCreationDTO.certType = CertType.ROOT;
-    } else if (this.type === 'Intermediate'){
+    } else if (this.type === 'Intermediate') {
       this.certificateCreationDTO.certType = CertType.INTERMEDIATE;
-    } else if (this.type === 'End_entity'){
-      this.certificateCreationDTO.certType = CertType.END_ENTITY;
+    } else if (this.type === 'End_entity') {
+      this.certificateCreationDTO.certType = CertType.ENDENTITY;
     }
 
     console.log(this.certificateCreationDTO);
