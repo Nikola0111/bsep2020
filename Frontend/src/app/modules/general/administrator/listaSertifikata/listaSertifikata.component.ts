@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {Certificate} from '../../../../model/certificate';
 import {CertificateService} from '../../../service/certificate.service';
 import {HttpHeaders} from '@angular/common/http';
+import {PreviewCertificateDTO} from '../../../../DTOs/preview-certificate-dto';
 
 
 const httpOptions = {
@@ -16,49 +17,30 @@ const httpOptions = {
 })
 
 export class ListaSertifikataComponent implements OnInit {
-  certificates: Certificate[];
+  certificates: PreviewCertificateDTO[];
   certificateService: CertificateService;
   dialogData: Certificate;
-  constructor(private router: Router, public dialog: HTMLDialogElement) {
-    this.dialog = new PreviewSertifikataDialogComponent();
+  constructor(private router: Router, certificateService: CertificateService) {
+    certificateService.getCertificates().subscribe( data => {
+      console.log(data);
+      this.certificates = data;
+    });
   }
   onSubmit() {
   }
 
   ngOnInit(): void {
-    this.certificateService.getCertificates().subscribe(
-      data => {
-        this.certificates = data;
-      }
-    );
+
   }
 
-  preview(id: number): void {
-    this.certificateService.getCertificate(id).subscribe(
-      data => {
-        this.dialogData = data;
-      }
-    )
-    ;
-    const dialogRef = this.dialog.open;
-  }
-  download(id: number) {}
-  revoke(id: number) {
-    this.certificateService.revoke(id).subscribe();
-    this.ngOnInit();
+  preview(serialNumber: number): void {
+
   }
 
-}
+  download(serialNumber: number) {}
 
-@Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'lista-sertifikata-preview-sertifikata-dialog',
-  templateUrl: './previewSertifikataDialog.html',
-  styleUrls: ['./previewSertifikataDialog.css']
-})
-export class PreviewSertifikataDialogComponent extends HTMLDialogElement {
-  certificate: Certificate = new Certificate();
-  constructor() {
-    super();
+  revoke(serialNumber: number) {
+    this.certificateService.revoke(serialNumber).subscribe();
   }
+
 }

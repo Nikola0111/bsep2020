@@ -2,6 +2,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Certificate} from '../../model/certificate';
 import {Injectable} from '@angular/core';
 import {CertificateCreationDTO} from '../../DTOs/creation-dto';
+import {PreviewCertificateDTO} from '../../DTOs/preview-certificate-dto';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type' : 'application/json'})
@@ -14,18 +15,18 @@ export class CertificateService {
   constructor(private http: HttpClient) {}
 
   public getCertificates() {
-    this.requestUrl = '/server/certificates/all';
-    return this.http.get<Array<Certificate>>(this.requestUrl, httpOptions);
+    this.requestUrl = '/server/certificate/all';
+    return this.http.get<Array<PreviewCertificateDTO>>(this.requestUrl, httpOptions);
   }
 
-  public revoke(id: number) {
-    this.requestUrl = '/server/certificate/revoke/' + id;
-    return this.http.post(this.requestUrl, httpOptions);
+  public revoke(serialNumber: number) {
+    this.requestUrl = '/server/certificate/revoke';
+    return this.http.post(this.requestUrl, serialNumber, httpOptions);
   }
 
-  public getCertificate(id: number) {
-    this.requestUrl = '/server/certificate/getCertificate/' + id;
-    return this.http.get<Certificate>(this.requestUrl, httpOptions);
+  public getCertificate(serialNumber: number) {
+    this.requestUrl = '/server/certificate/getCertificate';
+    return this.http.post<Certificate>(this.requestUrl, serialNumber, httpOptions);
   }
 
   public save(creationDTO: CertificateCreationDTO) {
