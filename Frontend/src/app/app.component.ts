@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {CertType} from './helpers/cer-type.enum';
+import {CertificateService} from './modules/service/certificate.service';
 
 @Component({
   selector: 'app-root',
@@ -8,3 +10,4 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'app';
 }
+

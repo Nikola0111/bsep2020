@@ -2,7 +2,6 @@ package com.example.bsep.model;
 
 import javax.persistence.Entity;
 import org.bouncycastle.asn1.x500.X500Name;
-
 //@Entity
 public class Administrator {
 
