@@ -63,12 +63,18 @@
     </li>
 
     <li>
-      <input [(ngModel)] ="type" id="root" type="radio" value="Root" formControlName="certType" />
-      <label class = "radio-label">Root</label>
-      <input [(ngModel)] ="type" id="intermediate" type="radio" value="Intermediate" formControlName="certType" />
-      <label  class = "radio-label">Intermediate</label>
-      <input [(ngModel)] ="type" id="end" type="radio" value="End_entity" formControlName="certType"/>
-      <label class = "radio-label">End entity</label>
+      <span style="display: block">
+        <input style="float: left" [(ngModel)] ="type" id="root" type="radio" value="Root" formControlName="certType" />
+        <label class = "radio-label">Root</label>
+      </span>
+      <span style="display: block">
+        <input style="float: left" [(ngModel)] ="type" id="intermediate" type="radio" value="Intermediate" formControlName="certType" />
+        <label  class = "radio-label">Intermediate</label>
+      </span>
+      <span style="display: block">
+        <input style="float: left" [(ngModel)] ="type" id="end" type="radio" value="End_entity" formControlName="certType"/>
+        <label class = "radio-label">End entity</label>
+      </span>
     </li>
 
     <li><label><h2>Certificate</h2></label></li>
@@ -80,7 +86,11 @@
 
     <li>
       <label>Issuer BI </label>
-      <input [(ngModel)] = "certificateCreationDTO.issuerBI" formControlName="issuerBI" type="text" name="issuerBI" class="field-long" placeholder="Issuer BI" />
+<!--      <input [(ngModel)] = "certificateCreationDTO.issuerBI" formControlName="issuerBI" type="text" name="issuerBI" class="field-long" placeholder="Issuer BI" />-->
+      <select formControlName="issuerBI" [(ngModel)]="issuerBI" (change)="changeIssuerBI()">
+        <option value="" disabled>Choose the issuer</option>
+        <option *ngFor="let ca of CAs">{{ca.serialNumber}} - {{ca.commonName}}</option>
+      </select>
     </li>
 
     <li>

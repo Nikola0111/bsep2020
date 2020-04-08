@@ -4,6 +4,7 @@ import {CertificateCreationDTO} from '../../../../DTOs/creation-dto';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CertificateService} from '../../../service/certificate.service';
 import {CertType} from '../../../../helpers/cer-type.enum';
+import {PreviewCertificateDTO} from '../../../../DTOs/preview-certificate-dto';
 
 @Component({
   selector: 'app-forma',
@@ -14,10 +15,15 @@ export class FormaComponent  implements OnInit {
   certificateCreationDTO: CertificateCreationDTO = new CertificateCreationDTO();
   forma: FormGroup;
   type: string;
+  CAs: PreviewCertificateDTO[];
+  issuerBI: string;
 
   constructor(private router: Router,
               private certificateService: CertificateService,
               private formBuilder: FormBuilder) {
+    this.certificateService.getAllCa().subscribe(
+      data => this.CAs = data
+    );
     this.certificateCreationDTO = new CertificateCreationDTO();
   }
   onSubmit(): void {
@@ -32,8 +38,9 @@ export class FormaComponent  implements OnInit {
       this.certificateCreationDTO.certType = CertType.ENDENTITY;
     }
 
+    this.certificateCreationDTO.serialNumber = +this.issuerBI.split(' -')[0];
+
     console.log(this.certificateCreationDTO);
-    this.certificateCreationDTO.serialNumber = 1;
     this.certificateService.save(this.certificateCreationDTO).subscribe();
 
     this.ngOnInit();
@@ -61,4 +68,7 @@ export class FormaComponent  implements OnInit {
     });
   }
 
+  changeIssuerBI() {
+    console.log(this.issuerBI);
+  }
 }
