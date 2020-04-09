@@ -28,18 +28,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "certificate")
 public class CertificateDataController {
 
-
 	@Autowired
 	CertificateDataService certificateDataService;
 
 	@Autowired
 	KeyStoreService keyStoreService;
 
-
 	@Autowired
 	RevokeService revokeService;
-
-	
 
 	@PostMapping(value="/save", consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> save(@RequestBody CertificateCreationDTO certificateCreationDTO){
@@ -58,7 +54,6 @@ public class CertificateDataController {
 		
 	}
 
-
 	@PostMapping(value="/revoke/{serialNumber}")
 	public ResponseEntity<List<CertificateDTO>> revoke(@PathVariable("serialNumber") BigInteger serialNumber){
 
@@ -72,12 +67,6 @@ public class CertificateDataController {
 		List<CertificateDTO> certificateDTOs = keyStoreService.getCAs();
 		return new ResponseEntity<>(certificateDTOs, HttpStatus.OK);
 	}
-
-
-
-
-	
-
 
 	@PostMapping(value = "/getCertificate", consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> getCertificate(@RequestBody BigInteger serialNumber){

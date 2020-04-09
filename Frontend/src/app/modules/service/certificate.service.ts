@@ -35,5 +35,7 @@ export class CertificateService {
     return this.http.post<CertificateCreationDTO>('/server/certificate/save', body, httpOptions);
   }
 
-
+  public getAllCa() {
+    return this.http.get<PreviewCertificateDTO[]>('/server/certificate/allCAs', httpOptions);
+  }
 }

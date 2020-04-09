@@ -44,7 +44,11 @@ export class ListaSertifikataComponent implements OnInit {
 
   revoke(serialNumber: number) {
     console.log(serialNumber)
-    this.certificateService.doRevoke(serialNumber).subscribe();
+    this.certificateService.doRevoke(serialNumber).subscribe( data =>
+      this.certificateService.getCertificates().subscribe( certificates =>{
+        this.certificates = certificates;
+      })
+    );
   }
 
 }
