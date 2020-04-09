@@ -3,7 +3,7 @@ import com.example.bsep.dtos.CertificateDTO;
 import com.example.bsep.model.CertType;
 import com.example.bsep.model.IssuerData;
 
-import com.example.bsep.DTOs.CertificateCreationDTO;
+import com.example.bsep.dtos.CertificateCreationDTO;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -237,7 +237,31 @@ public class KeyStoreService {
 	
 		
 		return true;
-	}
+    }
+    
+
+    public void download( String serialNumber ) {
+        
+
+        
+        String fileName = serialNumber+".cert";
+       X509Certificate certificate= getOne(serialNumber);
+       X509Certificate[] chain= new X509Certificate[]{certificate};
+      
+        try {
+            KeyStore keyStore = KeyStore.getInstance("PEM");
+            try {
+                keyStore.load(new FileInputStream(fileName),null);
+            } catch (IOException e) {
+                keyStore.load(null, null);
+            }
+
+            keyStore.setKeyEntry(serialNumber, null, serialNumber.toCharArray(),chain);
+            keyStore.store(new FileOutputStream(fileName), null);
+        } catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
 	
     
     

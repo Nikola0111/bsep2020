@@ -3,7 +3,7 @@ package com.example.bsep.service;
 import com.example.bsep.model.CertType;
 import com.example.bsep.model.CertificateData;
 import com.example.bsep.model.IssuerData;
-import com.example.bsep.DTOs.CertificateCreationDTO;
+import com.example.bsep.dtos.CertificateCreationDTO;
 import java.util.Calendar;
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.x500.X500NameBuilder;
