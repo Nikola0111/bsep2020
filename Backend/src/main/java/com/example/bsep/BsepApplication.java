@@ -12,7 +12,7 @@ public class BsepApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BsepApplication.class, args);
 		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
-	
+		
 		
 	}
 

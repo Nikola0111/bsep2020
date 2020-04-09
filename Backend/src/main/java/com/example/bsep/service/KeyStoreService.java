@@ -157,8 +157,13 @@ public class KeyStoreService {
         List<X509Certificate> certificates = new ArrayList<>();
 		
 		try {
-			KeyStore keyStore = KeyStore.getInstance("PKCS12");
+            KeyStore keyStore = KeyStore.getInstance("PKCS12");
+            
+            File f = new File(keyStoreName);
+            if(f.exists()){
             keyStore.load(new FileInputStream(keyStoreName), password);
+            }
+            
 			Enumeration<String> aliases = keyStore.aliases();
 			
 			while (aliases.hasMoreElements()) {
@@ -241,28 +246,24 @@ public class KeyStoreService {
     
 
     public void download( String serialNumber ) {
-        
-
-        
         String fileName = serialNumber+".cert";
-       X509Certificate certificate= getOne(serialNumber);
-       X509Certificate[] chain= new X509Certificate[]{certificate};
+       X509Certificate certificate = getOne(serialNumber);
       
+
         try {
-            KeyStore keyStore = KeyStore.getInstance("PEM");
+            KeyStore keyStore = KeyStore.getInstance("PKCS12");
             try {
-                keyStore.load(new FileInputStream(fileName),null);
+                keyStore.load(new FileInputStream(fileName),("password").toCharArray());
             } catch (IOException e) {
                 keyStore.load(null, null);
             }
-
-            keyStore.setKeyEntry(serialNumber, null, serialNumber.toCharArray(),chain);
-            keyStore.store(new FileOutputStream(fileName), null);
+            
+            keyStore.setCertificateEntry(serialNumber, certificate);
+            keyStore.store(new FileOutputStream(fileName), ("password").toCharArray());
         } catch (Exception e) {
-			e.printStackTrace();
-		}
+            e.printStackTrace();
+        }
     }
-	
     
     
 
