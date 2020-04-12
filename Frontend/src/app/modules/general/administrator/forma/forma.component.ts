@@ -38,8 +38,11 @@ export class FormaComponent  implements OnInit {
       this.certificateCreationDTO.certType = CertType.ENDENTITY;
     }
 
-    this.certificateCreationDTO.serialNumber = +this.issuerBI.split(' -')[0];
-
+    if(this.issuerBI === undefined){
+      this.certificateCreationDTO.serialNumber = null;
+    } else {
+      this.certificateCreationDTO.serialNumber = +this.issuerBI.split(' -')[0];
+    }
     console.log(this.certificateCreationDTO);
     this.certificateService.save(this.certificateCreationDTO).subscribe();
 

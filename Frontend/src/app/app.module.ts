@@ -29,30 +29,30 @@ import {CertType} from './helpers/cer-type.enum';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  creationDTO: CertificateCreationDTO;
-  constructor(certificateService: CertificateService) {
-    this.creationDTO = new CertificateCreationDTO();
-
-    this.creationDTO._requestingID = 1;
-    this.creationDTO._certType = CertType.ROOT;
-    this.creationDTO._requestingEmail = 'root_email@gmail.com';
-    this.creationDTO._requestingName = 'Root';
-    this.creationDTO._requestingSurname = 'Root';
-    this.creationDTO._x500RequestingState = 'Server';
-    this.creationDTO._x500requestingCommonName = 'Root';
-    this.creationDTO._x500RequestingSurname = 'Root';
-    this.creationDTO._x500RequestingGivenname = 'Root';
-    this.creationDTO._x500RequestingOrganization = 'Server';
-    this.creationDTO._x500RequestingOrganizationUnit = 'Server';
-    this.creationDTO._x500RequestingLocality = 'Server';
-    this.creationDTO._x500RequestingCountry = 'Server';
-    this.creationDTO._x500RequestingUID = '123';
-    this.creationDTO._serialNumber = 1;
-    this.creationDTO._issuerBi = 1;
-    // this.creationDummyDTO = new CertificateDummy(1, CertType.ROOT, 'Root', 'Root',
-    //   'root_gmail.com', 'comname', 'comsur','givname',
-    //   'org', 'org');
-    console.log(this.creationDTO);
-    certificateService.save(this.creationDTO).subscribe();
-  }
+  // creationDTO: CertificateCreationDTO;
+  // constructor(certificateService: CertificateService) {
+  //   this.creationDTO = new CertificateCreationDTO();
+  //
+  //   this.creationDTO._requestingID = 1;
+  //   this.creationDTO._certType = CertType.ROOT;
+  //   this.creationDTO._requestingEmail = 'root_email@gmail.com';
+  //   this.creationDTO._requestingName = 'Root';
+  //   this.creationDTO._requestingSurname = 'Root';
+  //   this.creationDTO._x500RequestingState = 'Server';
+  //   this.creationDTO._x500requestingCommonName = 'Root';
+  //   this.creationDTO._x500RequestingSurname = 'Root';
+  //   this.creationDTO._x500RequestingGivenname = 'Root';
+  //   this.creationDTO._x500RequestingOrganization = 'Server';
+  //   this.creationDTO._x500RequestingOrganizationUnit = 'Server';
+  //   this.creationDTO._x500RequestingLocality = 'Server';
+  //   this.creationDTO._x500RequestingCountry = 'Server';
+  //   this.creationDTO._x500RequestingUID = '123';
+  //   this.creationDTO._serialNumber = 1;
+  //   this.creationDTO._issuerBi = 1;
+  //   // this.creationDummyDTO = new CertificateDummy(1, CertType.ROOT, 'Root', 'Root',
+  //   //   'root_gmail.com', 'comname', 'comsur','givname',
+  //   //   'org', 'org');
+  //   console.log(this.creationDTO);
+  //   certificateService.save(this.creationDTO).subscribe();
+  // }
 }

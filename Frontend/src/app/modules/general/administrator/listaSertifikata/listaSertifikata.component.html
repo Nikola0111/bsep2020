@@ -14,7 +14,7 @@
     <label> Email: {{c.email}} </label>
     <label> Serial number: {{c.serialNumber}} </label>
     <input (click) = "preview(c)" type="submit" value="Preview"/>
-    <input (click) = "revoke(c.serialNumber)" type="reset" value="revoke"/>
+    <input *ngIf="c.commonName !== 'root'" (click) = "revoke(c.serialNumber)" type="reset" value="revoke"/>
     <input (click) = "download(c.serialNumber)" type="button" value="Download"/>
   </li>
 </ul>
@@ -29,8 +29,8 @@
   <label class = "previewlabel">Organization: <b>{{selectedCertificate.organization}}</b></label>
   <label class = "previewlabel">Organization unit: <b>{{selectedCertificate.organizationalUnitName}}</b></label>
   <label class = "previewlabel">Serial number: <b>{{selectedCertificate.serialNumber}}</b></label>
-  <label class = "previewlabel">Valid from: <b>11.06.2019 12:59:23PM</b></label>
-  <label class = "previewlabel">Valid to: <b>11.6.2020 12:59:23PM</b></label>
+  <label class = "previewlabel">Valid from: <b>{{selectedCertificate.validFrom}}</b></label>
+  <label class = "previewlabel">Valid to: <b>{{selectedCertificate.validUntil}}</b></label>
   <div style = "float:left;width:250px">
   <button class = "previewlabel" (click)="selected = false">Close</button>
   </div>

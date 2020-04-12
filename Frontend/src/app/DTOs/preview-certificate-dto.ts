@@ -7,5 +7,7 @@ export class PreviewCertificateDTO {
   countryCode: string;
   email: string;
   serialNumber: number;
+  validFrom: string;
+  validUntil: string;
   status: string;
 }

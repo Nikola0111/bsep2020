@@ -88,7 +88,7 @@
       <label>Issuer BI </label>
 <!--      <input [(ngModel)] = "certificateCreationDTO.issuerBI" formControlName="issuerBI" type="text" name="issuerBI" class="field-long" placeholder="Issuer BI" />-->
       <select formControlName="issuerBI" [(ngModel)]="issuerBI" (change)="changeIssuerBI()">
-        <option value="" disabled>Choose the issuer</option>
+        <option value="">Choose the issuer</option>
         <option *ngFor="let ca of CAs">{{ca.serialNumber}} - {{ca.commonName}}</option>
       </select>
     </li>
