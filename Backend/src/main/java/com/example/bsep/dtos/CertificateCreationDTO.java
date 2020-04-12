@@ -1,5 +1,5 @@
 
-package com.example.bsep.DTOs;
+package com.example.bsep.dtos;
 
 
 import java.math.BigInteger;

@@ -27,7 +27,6 @@ export class FormaComponent  implements OnInit {
     this.certificateCreationDTO = new CertificateCreationDTO();
   }
   onSubmit(): void {
-    alert('poslo sam');
     console.log(this.type);
 
     if(this.type === 'Root'){
@@ -38,6 +37,11 @@ export class FormaComponent  implements OnInit {
       this.certificateCreationDTO.certType = CertType.ENDENTITY;
     }
 
+    if(this.issuerBI === undefined) {
+      alert('Morate odabrati potpisujući sertifikat!');
+      return;
+    }
+    alert('poslo sam');
     this.certificateCreationDTO.serialNumber = +this.issuerBI.split(' -')[0];
 
     console.log(this.certificateCreationDTO);

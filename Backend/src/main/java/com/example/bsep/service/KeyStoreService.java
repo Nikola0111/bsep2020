@@ -3,12 +3,9 @@ import com.example.bsep.dtos.CertificateDTO;
 import com.example.bsep.model.CertType;
 import com.example.bsep.model.IssuerData;
 
-import com.example.bsep.dtos.CertificateCreationDTO;
-
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
 import org.springframework.stereotype.Service;
@@ -37,20 +34,18 @@ public class KeyStoreService {
     
 
     public X509Certificate getOne(String serialNumber) {
-
+        System.out.println("Trazi u root");
         X509Certificate x509Certificate=getCertificate(serialNumber, ("passwordRoot").toCharArray(),"keystoreRoot.jks");
 
         if(x509Certificate==null){
+            System.out.println("Trazi u intermediate");
            x509Certificate=getCertificate(serialNumber, ("passwordIntermediate").toCharArray(),"keystoreIntermediate.jks");
         
         }
-        else {
-
+        else if(x509Certificate == null){
+            System.out.println("Trazi u end");
             x509Certificate=getCertificate(serialNumber, ("passwordEND").toCharArray(),"keystoreEND.jks");
         }
-
-       
-
 
 		return x509Certificate;
 	}
@@ -158,10 +153,12 @@ public class KeyStoreService {
 		
 		try {
             KeyStore keyStore = KeyStore.getInstance("PKCS12");
-            
+
             File f = new File(keyStoreName);
             if(f.exists()){
             keyStore.load(new FileInputStream(keyStoreName), password);
+            }else{
+                return new ArrayList<X509Certificate>();
             }
             
 			Enumeration<String> aliases = keyStore.aliases();
@@ -191,9 +188,7 @@ public class KeyStoreService {
 			KeyStore keyStore = KeyStore.getInstance("PKCS12");
             keyStore.load(new FileInputStream(keyStoreName), password);
             X509Certificate cert = (X509Certificate) keyStore.getCertificate(alias);
-            
-            
-            
+
             if(checkValidity(cert)){
             return cert;
             }
@@ -248,6 +243,7 @@ public class KeyStoreService {
     public void download( String serialNumber ) {
         String fileName = serialNumber+".cert";
        X509Certificate certificate = getOne(serialNumber);
+       X509Certificate[] chain= new X509Certificate[]{certificate};
       
 
         try {
@@ -257,7 +253,7 @@ public class KeyStoreService {
             } catch (IOException e) {
                 keyStore.load(null, null);
             }
-            
+            System.out.println("Javni kljuc:" + certificate.getPublicKey());
             keyStore.setCertificateEntry(serialNumber, certificate);
             keyStore.store(new FileOutputStream(fileName), ("password").toCharArray());
         } catch (Exception e) {
