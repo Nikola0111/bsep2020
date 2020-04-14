@@ -40,7 +40,10 @@ export class ListaSertifikataComponent implements OnInit {
     this.selected = true;
   }
 
-  download(serialNumber: number) {}
+  download(serialNumber: number) {
+    console.log('ulazi')
+    this.certificateService.download(serialNumber).subscribe();
+  }
 
   revoke(serialNumber: number) {
     console.log(serialNumber)

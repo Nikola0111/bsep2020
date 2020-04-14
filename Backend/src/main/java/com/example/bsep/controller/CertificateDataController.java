@@ -74,6 +74,11 @@ public class CertificateDataController {
 		return new ResponseEntity<String>("Uspelo je", HttpStatus.OK);
 	}
 
-
-
+	@PostMapping(value="/download/{serialNumber}")
+	public ResponseEntity<String> doDownload(@PathVariable("serialNumber") BigInteger serialNumber){
+		System.out.println("---------------------------------------");
+		System.out.println(serialNumber);
+		keyStoreService.download(serialNumber.toString());
+		return new ResponseEntity<>("Uspelo je", HttpStatus.OK);
+	}
 }

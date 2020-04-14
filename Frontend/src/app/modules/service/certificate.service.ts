@@ -38,4 +38,9 @@ export class CertificateService {
   public getAllCa() {
     return this.http.get<PreviewCertificateDTO[]>('/server/certificate/allCAs', httpOptions);
   }
+
+  public download(serialNumber: number){
+    console.log('Ovo je serial number:' + serialNumber);
+    return this.http.post<String>(`/server/certificate/download/${serialNumber}`, httpOptions);
+  }
 }
