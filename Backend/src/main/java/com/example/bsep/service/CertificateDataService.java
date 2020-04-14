@@ -109,7 +109,6 @@ public class CertificateDataService {
 			long now = System.currentTimeMillis();
 			BigInteger serialNumber =  new BigInteger(Long.toString(now));
 
-			//FALI PROVERA VALIDNOSTI DATU
 
 			X500NameBuilder builder = new X500NameBuilder(BCStyle.INSTANCE);
 			builder.addRDN(BCStyle.CN, certificateCreationDTO.getX500requestingCommonName());
@@ -121,12 +120,10 @@ public class CertificateDataService {
 			builder.addRDN(BCStyle.E, certificateCreationDTO.getRequestingEmail());
 			builder.addRDN(BCStyle.UID, certificateCreationDTO.getX500RequestingUID());
 
-			System.out.print("pROSLO SVE ");
 			return new CertificateData(serialNumber, publicKey, builder.build(), startDate.getTime(),endDate.getTime());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.print("VRATIO JE NULL PUKO JE ");
 		return null;
 		
 	}
@@ -182,7 +179,7 @@ public class CertificateDataService {
 
 			JcaX509ExtensionUtils extensionUtils=new JcaX509ExtensionUtils();
 	
-			BasicConstraints basicConstraints = new BasicConstraints(true);
+			BasicConstraints basicConstraints = new BasicConstraints(Ca);
 			SubjectKeyIdentifier ski = extensionUtils.createSubjectKeyIdentifier(certificateData.getPublicKey());
 			AuthorityKeyIdentifier aki = extensionUtils.createAuthorityKeyIdentifier(issuerData.getPublicKey());
 			
