@@ -27,19 +27,23 @@ export class FormaComponent  implements OnInit {
     this.certificateCreationDTO = new CertificateCreationDTO();
   }
   onSubmit(): void {
-    alert('poslo sam');
     console.log(this.type);
 
-    if(this.type === 'Root'){
+    if (this.type === 'Root') {
       this.certificateCreationDTO.certType = CertType.ROOT;
     } else if (this.type === 'Intermediate') {
       this.certificateCreationDTO.certType = CertType.INTERMEDIATE;
     } else if (this.type === 'End_entity') {
       this.certificateCreationDTO.certType = CertType.ENDENTITY;
     }
-
-    if(this.issuerBI === undefined){
+    if (this.issuerBI === undefined) {
       this.certificateCreationDTO.serialNumber = null;
+    } else {
+      this.certificateCreationDTO.serialNumber = +this.issuerBI.split(' -')[0];
+    }
+
+    if (this.issuerBI === undefined) {
+      this.certificateCreationDTO.serialNumber = null
     } else {
       this.certificateCreationDTO.serialNumber = +this.issuerBI.split(' -')[0];
     }
